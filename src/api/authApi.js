@@ -1,23 +1,54 @@
 import fetchApi from "./apiConfig";
 
-export const getUser = async (email) => {
-  const response = await fetchApi.get("api/users", {
-    params: {
-      email,
-    },
-  });
+export const getUser = async ({ user_id }) => {
+  const response = await fetchApi.get(`api/users/${user_id}`);
 
   return response;
 };
 
 export const createUser = async (newUserInfo) => {
-  const response = await fetchApi.post("api/users", newUserInfo);
+  const response = await fetchApi.post(`api/users/new`, newUserInfo);
 
   return response;
 };
 
-export const updateUser = async ({ nickname, email }) => {
-  const response = await fetchApi.patch("api/users", { nickname, email });
+export const getUserFaceId = async ({ user_id }) => {
+  const response = await fetchApi.get(`api/users/${user_id}/face-id`, {});
+
+  return response;
+};
+
+export const registerUserFaceId = async (formData) => {
+  const response = await fetchApi.post(`api/users/face-id`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response;
+};
+// export const registerUserFaceId = async (user_id, formData) => {
+//   const response = await fetchApi.post(
+//     `api/users/${user_id}/face-id`,
+//     formData,
+//     {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//       },
+//     }
+//   );
+
+//   return response;
+// };
+
+export const getUserProfileImage = async ({ user_id }) => {
+  const response = await fetchApi.get(`api/users/${user_id}/profile_img`, {});
+
+  return response;
+};
+
+export const updateUserProfileImage = async ({ user_id }) => {
+  const response = await fetchApi.patch(`api/users/${user_id}/profile-img`, {});
 
   return response;
 };

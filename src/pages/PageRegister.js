@@ -11,20 +11,20 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import { createUser } from "../api/authApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const PageRegister = () => {
   const lastNameRef = useRef();
   const errorRef = useRef();
-
-  const [organization, setOrganization] = useState("");
-  const [isFocusOnOrganization, setIsFocusOnOrganization] = useState(false);
 
   const [lastName, setLastName] = useState("");
   const [isFocusOnLastName, setIsFocusOnLastName] = useState(false);
 
   const [firstName, setFirstName] = useState("");
   const [isFocusOnFirstName, setIsFocusOnFirstName] = useState(false);
+
+  const [organization, setOrganization] = useState("");
+  const [isFocusOnOrganization, setIsFocusOnOrganization] = useState(false);
 
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(false);
@@ -40,6 +40,8 @@ const PageRegister = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     lastNameRef.current.focus();
@@ -62,7 +64,15 @@ const PageRegister = () => {
     event.preventDefault();
 
     try {
-      const response = await createUser();
+      const response = await createUser({
+        lastName,
+        firstName,
+        organization,
+        email,
+        password,
+      });
+
+      navigate("/profile/USERID/faceid");
     } catch (error) {
       if (!error?.response) {
         setErrorMessage("No Server Response");
@@ -268,7 +278,7 @@ const PageRegister = () => {
               : false
           }
         >
-          Next
+          Sign Up
         </button>
       </form>
       <p>
