@@ -13,18 +13,14 @@ import styled from "styled-components";
 import { createUser } from "../api/authApi";
 import { Link, useNavigate } from "react-router-dom";
 
-const PageRegister = () => {
+const Register = () => {
   const lastNameRef = useRef();
   const errorRef = useRef();
 
-  const [lastName, setLastName] = useState("");
-  const [isFocusOnLastName, setIsFocusOnLastName] = useState(false);
-
-  const [firstName, setFirstName] = useState("");
-  const [isFocusOnFirstName, setIsFocusOnFirstName] = useState(false);
+  const [name, setName] = useState("");
+  const [isFocusOnName, setIsFocusOnName] = useState(false);
 
   const [organization, setOrganization] = useState("");
-  const [isFocusOnOrganization, setIsFocusOnOrganization] = useState(false);
 
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(false);
@@ -64,15 +60,14 @@ const PageRegister = () => {
     event.preventDefault();
 
     try {
-      const response = await createUser({
-        lastName,
-        firstName,
+      await createUser({
+        name,
         organization,
         email,
         password,
       });
 
-      navigate("/profile/USERID/faceid");
+      navigate("/login");
     } catch (error) {
       if (!error?.response) {
         setErrorMessage("No Server Response");
@@ -96,47 +91,26 @@ const PageRegister = () => {
       </p>
       <h1>Sign Up</h1>
       <form onSubmit={submitHandler}>
-        <label htmlFor="last-name">Last Name:</label>
+        <label htmlFor="name">Name:</label>
         <input
           ref={lastNameRef}
           type="text"
-          id="last-name"
+          id="name"
           autoComplete="off"
-          onChange={(event) => setLastName(event.target.value)}
-          value={lastName}
-          aria-invalid={lastName ? "false" : "true"}
+          onChange={(event) => setName(event.target.value)}
+          value={name}
+          aria-invalid={name ? "false" : "true"}
           aria-describedby="lastnameinstructions"
-          onFocus={() => setIsFocusOnLastName(true)}
-          onBlur={() => setIsFocusOnLastName(false)}
+          onFocus={() => setIsFocusOnName(true)}
+          onBlur={() => setIsFocusOnName(false)}
           required
         />
         <p
           id="lastnameinstructions"
-          className={isFocusOnLastName && !lastName ? "instructions" : "hide"}
+          className={isFocusOnName && !name ? "instructions" : "hide"}
         >
           <FontAwesomeIcon icon={faInfoCircle} />
-          Last Name Required
-        </p>
-
-        <label htmlFor="first-name">First Name:</label>
-        <input
-          type="text"
-          id="first-name"
-          autoComplete="off"
-          onChange={(event) => setFirstName(event.target.value)}
-          value={firstName}
-          aria-invalid={firstName ? "false" : "true"}
-          aria-describedby="firstnameinstructions"
-          onFocus={() => setIsFocusOnFirstName(true)}
-          onBlur={() => setIsFocusOnFirstName(false)}
-          required
-        />
-        <p
-          id="firstnameinstructions"
-          className={isFocusOnFirstName && !firstName ? "instructions" : "hide"}
-        >
-          <FontAwesomeIcon icon={faInfoCircle} />
-          First Name Required
+          Name Required
         </p>
 
         <label htmlFor="organization">Organization:</label>
@@ -148,19 +122,7 @@ const PageRegister = () => {
           value={organization}
           aria-invalid={organization ? "false" : "true"}
           aria-describedby="organizationinstructions"
-          onFocus={() => setIsFocusOnOrganization(true)}
-          onBlur={() => setIsFocusOnOrganization(false)}
-          required
         />
-        <p
-          id="organizationinstructions"
-          className={
-            isFocusOnOrganization && !organization ? "instructions" : "hide"
-          }
-        >
-          <FontAwesomeIcon icon={faInfoCircle} />
-          Organization Required
-        </p>
 
         <label htmlFor="email">
           Email:
@@ -268,12 +230,7 @@ const PageRegister = () => {
         </p>
         <button
           disabled={
-            !lastName ||
-            !firstName ||
-            !organization ||
-            !isValidEmail ||
-            !isValidPassword ||
-            !isValidMatch
+            !name || !isValidEmail || !isValidPassword || !isValidMatch
               ? true
               : false
           }
@@ -283,13 +240,13 @@ const PageRegister = () => {
       </form>
       <p>
         Already have an account?
-        <span className="line">{/* <Link to="/login">Sign In</Link> */}</span>
+        <Link to="/login"> Sign In</Link>
       </p>
     </RegisterSection>
   );
 };
 
-export default PageRegister;
+export default Register;
 
 const RegisterSection = styled.div`
   .hide {

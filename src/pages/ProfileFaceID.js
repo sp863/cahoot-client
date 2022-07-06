@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import styled from "styled-components";
-import { registerUserFaceId } from "../api/authApi";
+import { registerUserFaceId } from "../api/userApi";
 import useInterval from "../hooks/interval-hook";
 
-const PageRegisterFaceID = () => {
+const ProfileFaceID = () => {
   const [faceId, setFaceId] = useState([]);
   const [timeRemaining, setTimeRemaining] = useState(37);
   const webcamElement = useRef();
@@ -64,4 +64,4 @@ const PageRegisterFaceID = () => {
   );
 };
 
-export default PageRegisterFaceID;
+export default ProfileFaceID;

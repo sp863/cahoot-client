@@ -1,54 +1,25 @@
 import fetchApi from "./apiConfig";
 
-export const getUser = async ({ user_id }) => {
-  const response = await fetchApi.get(`api/users/${user_id}`);
-
-  return response;
-};
-
 export const createUser = async (newUserInfo) => {
-  const response = await fetchApi.post(`api/users/new`, newUserInfo);
+  const response = await fetchApi.post("api/auth/new", newUserInfo);
 
   return response;
 };
 
-export const getUserFaceId = async ({ user_id }) => {
-  const response = await fetchApi.get(`api/users/${user_id}/face-id`, {});
+export const loginUser = async (email, password) => {
+  const response = await fetchApi.post(`api/auth/login`, { email, password });
 
   return response;
 };
 
-export const registerUserFaceId = async (formData) => {
-  const response = await fetchApi.post(`api/users/face-id`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-
-  return response;
-};
-// export const registerUserFaceId = async (user_id, formData) => {
-//   const response = await fetchApi.post(
-//     `api/users/${user_id}/face-id`,
-//     formData,
-//     {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//       },
-//     }
-//   );
-
-//   return response;
-// };
-
-export const getUserProfileImage = async ({ user_id }) => {
-  const response = await fetchApi.get(`api/users/${user_id}/profile_img`, {});
+export const logoutUser = async () => {
+  const response = await fetchApi.post(`api/auth/logout`);
 
   return response;
 };
 
-export const updateUserProfileImage = async ({ user_id }) => {
-  const response = await fetchApi.patch(`api/users/${user_id}/profile-img`, {});
+export const refreshUser = async () => {
+  const response = await fetchApi.get("api/auth/refresh");
 
   return response;
 };

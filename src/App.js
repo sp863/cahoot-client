@@ -1,21 +1,29 @@
-import PageRegister from "./pages/PageRegister";
-import PageHome from "./pages/PageHome";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import PageLogin from "./pages/PageLogin";
-import PageProfileImage from "./pages/PageProfileImage";
-import PageRegisterFaceID from "./pages/PageRegisterFaceID";
+import { Route, Routes } from "react-router-dom";
+import Register from "./pages/Register";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import ProfileImage from "./pages/ProfileImage";
+import ProfileFaceID from "./pages/ProfileFaceID";
+import Layout from "./components/Layout";
+import Page404 from "./components/Page404";
+import RequireAuth from "./components/RequireAuth";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<PageHome />} />
-        <Route path="/login" element={<PageLogin />} />
-        <Route path="/register" element={<PageRegister />} />
-        <Route path="/profile/faceid" element={<PageRegisterFaceID />} />
-        <Route path="/profile/:user_id/image" element={<PageProfileImage />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route element={<RequireAuth />}>
+          <Route path="/profile/faceid" element={<ProfileFaceID />} />
+          <Route path="/profile/:user_id/image" element={<ProfileImage />} />
+        </Route>
+
+        <Route path="*" element={<Page404 />} />
+      </Route>
+    </Routes>
   );
 }
 
