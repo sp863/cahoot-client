@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import styled from "styled-components";
 import { registerUserFaceId } from "../api/userApi";
+import useApiPrivate from "../hooks/apiPrivate-hook";
 import useInterval from "../hooks/interval-hook";
 
-const ProfileFaceID = () => {
+const ProfileFaceId = () => {
+  const fetchApiPrivate = useApiPrivate();
   const [faceId, setFaceId] = useState([]);
   const [timeRemaining, setTimeRemaining] = useState(37);
   const webcamElement = useRef();
@@ -46,7 +48,7 @@ const ProfileFaceID = () => {
     }
 
     try {
-      const response = await registerUserFaceId(data);
+      const response = await registerUserFaceId(fetchApiPrivate, data);
     } catch (error) {
       console.log(error);
     }
@@ -64,4 +66,4 @@ const ProfileFaceID = () => {
   );
 };
 
-export default ProfileFaceID;
+export default ProfileFaceId;

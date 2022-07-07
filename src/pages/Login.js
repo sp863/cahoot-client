@@ -4,7 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/auth-hook";
 
 const Login = () => {
-  const { setAuth } = useAuth();
+  const { persist, setAuth, setPersist } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,6 +24,10 @@ const Login = () => {
   useEffect(() => {
     setErrorMessage("");
   }, [email, password]);
+
+  useEffect(() => {
+    localStorage.setItem("persist", persist);
+  }, [persist]);
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -79,6 +83,13 @@ const Login = () => {
           required
         />
         <button>Sign In</button>
+        <input
+          id="persist"
+          type="checkbox"
+          onChange={() => setPersist((prev) => !prev)}
+          checked={persist ? true : false}
+        />
+        <label htmlFor="persist">Trust this device.</label>
         <p>
           Need an Account?
           <Link to="/register"> Register here</Link>
