@@ -32,23 +32,23 @@ const ProfileFaceId = () => {
   };
 
   const registerFaceId = async (faceId) => {
-    const data = new FormData();
+    const faceData = new FormData();
 
-    for (const base64FaceData of faceId) {
+    for (const [index, base64FaceData] of faceId.entries()) {
       const response = await fetch(base64FaceData);
       const imageBlob = await response.blob();
-      imageBlob.name = `face-image.png`;
+      imageBlob.name = `face-image-${index}.png`;
       imageBlob.lastModifiend = new Date();
 
-      const imageFile = new File([imageBlob], `face-image.png`, {
+      const imageFile = new File([imageBlob], `face-image-${index}.png`, {
         type: "image/png",
       });
 
-      data.append("image", imageFile);
+      faceData.append("image", imageFile);
     }
 
     try {
-      const response = await registerUserFaceId(fetchApiPrivate, data);
+      await registerUserFaceId(fetchApiPrivate, faceData);
     } catch (error) {
       console.log(error);
     }

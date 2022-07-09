@@ -69,6 +69,7 @@ const Header = () => {
               alt="user profile"
               onClick={() => setIsModalOpen(!isModalOpen)}
             />
+            <Link to={"/projects"}>My Projects</Link>
             <button onClick={logoutHandler}>Sign out</button>
           </>
         ) : (

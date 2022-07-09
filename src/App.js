@@ -13,13 +13,15 @@ import MyProjects from "./pages/MyProjects";
 import ProjectDashboard from "./pages/ProjectDashboard";
 import DocForms from "./modal-pages/DocForms";
 import DocUploadForm from "./components/DocUploadForm";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 function App() {
+  const queryClient = new QueryClient();
   const location = useLocation();
   const background = location.state && location.state.background;
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/home" element={<Home />} />
@@ -66,7 +68,7 @@ function App() {
           </Route>
         </Routes>
       )}
-    </>
+    </QueryClientProvider>
   );
 }
 

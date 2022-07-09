@@ -6,6 +6,12 @@ export const getUser = async ({ user_id }) => {
   return response;
 };
 
+export const getMyProjects = async (fetchApiPrivate, user_id) => {
+  const response = await fetchApiPrivate.get(`api/users/${user_id}/projects`);
+
+  return response;
+};
+
 export const getUserFaceId = async ({ user_id }) => {
   const response = await fetchApi.get(`api/users/${user_id}/face-id`, {});
 

@@ -1,13 +1,16 @@
 import { Link, useLocation, useParams } from "react-router-dom";
 
 const ProjectDashboard = () => {
-  const { project_id } = useParams();
   const location = useLocation();
+  const { project_id } = useParams();
 
   return (
     <section>
       <h1>Project Name</h1>
-      <Link to="/projects/1/doc-forms" state={{ background: location }}>
+      <Link
+        to={`/projects/${project_id}/doc-forms`}
+        state={{ background: location }}
+      >
         Document Forms
       </Link>
     </section>
