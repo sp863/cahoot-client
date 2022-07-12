@@ -35,7 +35,7 @@ const DocForms = () => {
           <DocFormsContainer>
             <AddFormContainer>
               <Link
-                to={`/projects/${project_id}/doc-forms/new`}
+                to={`${location.pathname}/new`}
                 state={{ background: location }}
               >
                 Add New Form
@@ -53,7 +53,12 @@ const DocForms = () => {
                       onClick={previewFormHandler}
                       width={150}
                     />
-                    <button>Sign</button>
+                    <Link
+                      to={`${location.pathname}/${form._id}/sign`}
+                      state={{ background: location }}
+                    >
+                      Sign
+                    </Link>
                   </FormContainer>
                 );
               })}
