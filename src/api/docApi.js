@@ -20,16 +20,34 @@ export const getDocumentForm = async (fetchApiPrivate, form_id) => {
   return response;
 };
 
-export const signDocumentForm = async (
+export const signDocumentForm = async ({
   fetchApiPrivate,
   form_id,
   inputData,
-  email
-) => {
-  const response = await fetchApiPrivate.patch(`api/docs/${form_id}`, {
+  user_id,
+}) => {
+  const response = await fetchApiPrivate.patch(`api/docs/${form_id}/sign`, {
     inputData,
-    email,
+    user_id,
   });
+
+  return response;
+};
+
+export const uploadSignedFormImages = async ({
+  fetchApiPrivate,
+  form_id,
+  pageData,
+}) => {
+  const response = await fetchApiPrivate.patch(
+    `api/docs/${form_id}/images`,
+    pageData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
 
   return response;
 };

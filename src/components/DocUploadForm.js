@@ -14,8 +14,6 @@ const DocUploadForm = () => {
   const [formImages, setFormImages] = useState([]);
   const [requiredSignatures, setRequiredSignatures] = useState(0);
 
-  console.log(requiredSignatures);
-
   const fileRef = useRef(null);
   const navigate = useNavigate();
   const { project_id } = useParams();
@@ -71,10 +69,6 @@ const DocUploadForm = () => {
     setFormImages([]);
   };
 
-  const requiredSignaturesHandler = (event) => {
-    setRequiredSignatures(event.target.value);
-  };
-
   return (
     <ModalPage>
       <UploadContainer>
@@ -100,7 +94,7 @@ const DocUploadForm = () => {
                 ref={fileRef}
                 type="file"
                 onChange={inputFormFileHandler}
-                accept=".pdf" //TODO: image 도 할 수 있게금 나중에 추가
+                accept=".pdf"
               />
               <div>
                 <label htmlFor="required-signatures">
@@ -128,12 +122,6 @@ const DocUploadForm = () => {
                 Upload
               </button>
             </form>
-            {/* {formImages.length > 0 &&
-              formImages.map((image, index) => {
-                return (
-                  <img key={index} src={image} alt="preview" width={150} />
-                );
-              })} */}
           </FormContainer>
           <PreviewContainer>
             {formPdfFile && (

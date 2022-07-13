@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
-import { getDocumentForm } from "../api/docApi";
+import { getDocumentForm, signDocumentForm } from "../api/docApi";
 import useFormMutation from "../hooks/doc-mutation-hook";
 import DrawCanvas from "./DrawCanvas";
 import SignatureCanvas from "./SignatureCanvas";
@@ -27,10 +27,11 @@ const DigitalSignature = ({ auth, fetchApiPrivate, completeStep }) => {
   const [isRectDrawn, setIsRectDrawn] = useState(false);
 
   const { form_id } = useParams();
+  const navigate = useNavigate();
   const { data: docForm } = useQuery(["form", form_id], () =>
     getDocumentForm(fetchApiPrivate, form_id)
   );
-  const { signFormMutation } = useFormMutation();
+  const { uploadFormImagesMutation } = useFormMutation();
 
   console.log(editBoxes);
 
@@ -95,11 +96,17 @@ const DigitalSignature = ({ auth, fetchApiPrivate, completeStep }) => {
   const signatureInsertHandler = (event) => {
     if (!isRectDrawn || !editBoxes.length || !isDrawingMode) return;
 
+    setEditBoxes((previous) =>
+      previous.filter((edit) => edit.content || edit?.x)
+    );
+
     setEditBoxes((previous) => {
       const lastBox = previous[previous.length - 1];
       lastBox.type = "image";
       lastBox.content = canvasRef.current.toDataURL();
       lastBox.pageNumber = pageNumber;
+      lastBox.imageWidth = mainCanvasImageWidth;
+      lastBox.imageHeight = mainCanvasImageHeight;
 
       return [...previous];
     });
@@ -108,14 +115,37 @@ const DigitalSignature = ({ auth, fetchApiPrivate, completeStep }) => {
     setIsDrawingMode(false);
   };
 
-  const submitSignatureHandler = (event) => {
-    console.log(auth.auth.user.email);
-    signFormMutation.mutate(
+  const submitSignatureHandler = async () => {
+    const response = await signDocumentForm({
       fetchApiPrivate,
       form_id,
-      editBoxes,
-      auth.auth.user.email
-    );
+      inputData: editBoxes,
+      user_id: auth.auth.user.user_id,
+    });
+
+    const pageData = new FormData();
+
+    for (const [index, base64PageImage] of response.data.entries()) {
+      const response = await fetch(`data:image/jpeg;base64,${base64PageImage}`);
+      const imageBlob = await response.blob();
+      const imageFileName = `signed-page-${index + 1}.png`;
+      imageBlob.name = imageFileName;
+      imageBlob.lastModifiend = new Date();
+
+      const imageFile = new File([imageBlob], imageFileName, {
+        type: "image/png",
+      });
+
+      pageData.append("Signed-Page", imageFile);
+    }
+
+    uploadFormImagesMutation.mutate({
+      fetchApiPrivate,
+      form_id,
+      pageData,
+    });
+
+    // navigate("/projects/:project_id/doc-forms");
   };
 
   return (
