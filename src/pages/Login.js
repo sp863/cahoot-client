@@ -34,7 +34,6 @@ const Login = () => {
 
     try {
       const response = await loginUser(email, password);
-      console.log(response);
 
       const user = response?.data?.user;
       const accessToken = response?.data?.accessToken;

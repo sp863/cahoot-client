@@ -14,6 +14,7 @@ import ProjectDashboard from "./pages/ProjectDashboard";
 import DocForms from "./modal-pages/DocForms";
 import DocUploadForm from "./components/DocUploadForm";
 import { QueryClient, QueryClientProvider } from "react-query";
+import SignForm from "./modal-pages/SignForm";
 
 function App() {
   const queryClient = new QueryClient();
@@ -48,6 +49,10 @@ function App() {
                 path="/projects/:project_id/doc-forms/new"
                 element={<DocUploadForm />}
               />
+              <Route
+                path="/projects/:project_id/doc-forms/:form_id/sign"
+                element={<SignForm />}
+              />
             </Route>
           </Route>
         </Route>
@@ -63,6 +68,10 @@ function App() {
               <Route
                 path="/projects/:project_id/doc-forms/new"
                 element={<DocUploadForm />}
+              />
+              <Route
+                path="/projects/:project_id/doc-forms/:form_id/sign"
+                element={<SignForm />}
               />
             </Route>
           </Route>

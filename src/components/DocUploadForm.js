@@ -12,6 +12,7 @@ const DocUploadForm = () => {
   const [formPdfFile, setFormPdfFile] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [formImages, setFormImages] = useState([]);
+  const [requiredSignatures, setRequiredSignatures] = useState(0);
 
   const fileRef = useRef(null);
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ const DocUploadForm = () => {
     formData.append("Doc-Form", formPdfFile);
     formData.append("title", docTitle);
     formData.append("project_id", project_id);
+    formData.append("requiredSignatures", requiredSignatures);
 
     uploadFormMutation.mutate({
       fetchApiPrivate,
@@ -92,21 +94,34 @@ const DocUploadForm = () => {
                 ref={fileRef}
                 type="file"
                 onChange={inputFormFileHandler}
-                accept=".pdf" //TODO: image 도 할 수 있게금 나중에 추가
+                accept=".pdf"
               />
+              <div>
+                <label htmlFor="required-signatures">
+                  Number of Required Signatures
+                </label>
+                <input
+                  id="required-signatures"
+                  type="number"
+                  onChange={(event) =>
+                    setRequiredSignatures(event.target.value)
+                  }
+                  min={1}
+                  required
+                />
+              </div>
               <button
                 type="submit"
-                disabled={!docTitle || !formPdfFile || formImages?.length === 0}
+                disabled={
+                  !docTitle ||
+                  !formPdfFile ||
+                  formImages?.length === 0 ||
+                  !requiredSignatures
+                }
               >
                 Upload
               </button>
             </form>
-            {formImages.length > 0 &&
-              formImages.map((image, index) => {
-                return (
-                  <img key={index} src={image} alt="preview" width={150} />
-                );
-              })}
           </FormContainer>
           <PreviewContainer>
             {formPdfFile && (

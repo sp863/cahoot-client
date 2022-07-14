@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "react-query";
-import { uploadNewDocForm } from "../api/docApi";
+import { uploadNewDocForm, uploadSignedFormImages } from "../api/docApi";
 
 const useFormMutation = () => {
   const queryClient = useQueryClient();
@@ -10,8 +10,15 @@ const useFormMutation = () => {
     },
   });
 
+  const uploadFormImagesMutation = useMutation(uploadSignedFormImages, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("forms");
+    },
+  });
+
   return {
     uploadFormMutation,
+    uploadFormImagesMutation,
   };
 };
 

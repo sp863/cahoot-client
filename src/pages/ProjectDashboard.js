@@ -8,7 +8,7 @@ const ProjectDashboard = () => {
     <section>
       <h1>Project Name</h1>
       <Link
-        to={`/projects/${project_id}/doc-forms`}
+        to={`${location.pathname}/doc-forms`}
         state={{ background: location }}
       >
         Document Forms

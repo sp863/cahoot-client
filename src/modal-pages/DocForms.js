@@ -6,12 +6,14 @@ import styled from "styled-components";
 import { getProjectDocFormsList } from "../api/docApi";
 import ModalPage from "../components/ModalPage";
 import useApiPrivate from "../hooks/apiPrivate-hook";
+import useAuth from "../hooks/auth-hook";
 
 const DocForms = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const fetchApiPrivate = useApiPrivate();
   const { project_id } = useParams();
+  const { auth } = useAuth();
   const [currentForm, setCurrentForm] = useState(null);
   const { data: docForms } = useQuery(["forms", project_id], () =>
     getProjectDocFormsList(fetchApiPrivate, project_id)
@@ -35,7 +37,7 @@ const DocForms = () => {
           <DocFormsContainer>
             <AddFormContainer>
               <Link
-                to={`/projects/${project_id}/doc-forms/new`}
+                to={`${location.pathname}/new`}
                 state={{ background: location }}
               >
                 Add New Form
@@ -53,7 +55,17 @@ const DocForms = () => {
                       onClick={previewFormHandler}
                       width={150}
                     />
-                    <button>Sign</button>
+                    {form.signed.includes(auth.user.email) ? (
+                      <div>Signed ✅</div>
+                    ) : (
+                      <Link
+                        to={`${location.pathname}/${form._id}/sign`}
+                        state={{ background: location }}
+                        disabled={form.signed.includes(auth.user.email)}
+                      >
+                        Sign
+                      </Link>
+                    )}
                   </FormContainer>
                 );
               })}
