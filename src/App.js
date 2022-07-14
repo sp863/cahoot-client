@@ -37,8 +37,12 @@ function App() {
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}>
             <Route path="/profile" element={<Profile />} />
-            <Route path="/profile/faceid" element={<ProfileFaceId />} />
+            <Route
+              path="/profile/:user_id/faceid"
+              element={<ProfileFaceId />}
+            />
             <Route path="/profile/:user_id/image" element={<ProfileImage />} />
+
             <Route path="/projects" element={<MyProjects />} />
             <Route path="/projects/:project_id" element={<ProjectDashboard />}>
               <Route
@@ -57,10 +61,19 @@ function App() {
           </Route>
         </Route>
       </Routes>
+
       {background && (
         <Routes>
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth />}>
+              <Route
+                path="/profile/:user_id/faceid"
+                element={<ProfileFaceId />}
+              />
+              <Route
+                path="/profile/:user_id/image"
+                element={<ProfileImage />}
+              />
               <Route
                 path="/projects/:project_id/doc-forms"
                 element={<DocForms />}

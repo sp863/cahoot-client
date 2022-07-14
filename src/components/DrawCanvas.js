@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { convertToImageCoordinates } from "../utils/signatureUtils";
 
 const DrawCanvas = ({
   formImage,

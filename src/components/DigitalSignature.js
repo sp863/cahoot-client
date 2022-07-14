@@ -7,7 +7,7 @@ import useFormMutation from "../hooks/doc-mutation-hook";
 import DrawCanvas from "./DrawCanvas";
 import SignatureCanvas from "./SignatureCanvas";
 
-const DigitalSignature = ({ auth, fetchApiPrivate, completeStep }) => {
+const DigitalSignature = ({ user, fetchApiPrivate }) => {
   const contextRef = useRef();
   const canvasRef = useRef();
   const [canvasContext, setCanvasContext] = useState([]);
@@ -120,7 +120,7 @@ const DigitalSignature = ({ auth, fetchApiPrivate, completeStep }) => {
       fetchApiPrivate,
       form_id,
       inputData: editBoxes,
-      user_id: auth.auth.user.user_id,
+      user_id: user.user_id,
     });
 
     const pageData = new FormData();

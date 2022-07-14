@@ -45,6 +45,7 @@ const DocForms = () => {
             </AddFormContainer>
             {docForms?.data.length > 0 &&
               docForms.data.map((form) => {
+                console.log(form);
                 return (
                   <FormContainer key={form._id}>
                     <div>{form.title}</div>
