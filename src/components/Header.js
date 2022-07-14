@@ -41,11 +41,11 @@ const Header = () => {
   };
 
   return (
-    <>
+    <HeaderContainer>
       {isModalOpen && (
         <Modal>
           <Link
-            to="/profile/faceid"
+            to={`/profile/${auth.user.user_id}/faceid`}
             state={{ background: location }}
             onClick={() => setIsModalOpen(!isModalOpen)}
           >
@@ -76,7 +76,7 @@ const Header = () => {
           <Link to="/login">Sign in</Link>
         )}
       </NavContainer>
-    </>
+    </HeaderContainer>
   );
 };
 
@@ -107,4 +107,9 @@ const ImageBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const HeaderContainer = styled.div`
+  width: 100%;
+  background-color: lightblue;
 `;
