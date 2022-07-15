@@ -6,3 +6,32 @@ export const createProject = async ({ fetchApiPrivate, newProjectInfo }) => {
 
   return response;
 };
+
+export const getProject = async (fetchApiPrivate, project_id) => {
+  const response = await fetchApiPrivate.get(`api/projects/${project_id}`);
+
+  return response;
+};
+
+export const createTask = async ({ fetchApiPrivate, project_id, taskData }) => {
+  const response = await fetchApiPrivate.post(
+    `api/projects/${project_id}/tasks/new`,
+    taskData
+  );
+
+  return response;
+};
+
+export const updateTask = async ({
+  fetchApiPrivate,
+  project_id,
+  task_id,
+  taskData,
+}) => {
+  const response = await fetchApiPrivate.patch(
+    `api/projects/${project_id}/tasks/${task_id}`,
+    taskData
+  );
+
+  return response;
+};
