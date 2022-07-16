@@ -58,9 +58,10 @@ const TaskList = ({ fetchApiPrivate, members, tasks, project_id }) => {
             </div>
             <div>{task.status}</div>
             <div>
-              {task.assignees.map((assignee) => {
+              {task.assignees.map((assignee, index) => {
                 return (
                   <img
+                    key={`${assignee._id}-${index}`}
                     src={
                       members?.find((member) => member.email === assignee)
                         .imageUrl

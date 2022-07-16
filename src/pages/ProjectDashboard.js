@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "react-query";
 import { Link, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getProject } from "../api/projectApi";
 import useApiPrivate from "../hooks/apiPrivate-hook";
 import TaskList from "../components/TaskList";
+import MemberList from "../components/MemberList";
+import Modal from "../components/Modal";
+import Invitation from "../components/Invitation";
 
 const ProjectDashboard = () => {
   const location = useLocation();
   const fetchApiPrivate = useApiPrivate();
   const { project_id } = useParams();
   const [isChatting, setIsChatting] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
   const { data: project } = useQuery(["projects", project_id], () =>
     getProject(fetchApiPrivate, project_id)
   );
-
-  console.log(project);
 
   return (
     <DashboardContainer>
@@ -40,14 +42,28 @@ const ProjectDashboard = () => {
         </TaskSection>
         <ControlSection>
           <ResourceSection>
+            {isModalOpen && (
+              <Modal>
+                <Invitation
+                  fetchApiPrivate={fetchApiPrivate}
+                  project_id={project_id}
+                  closeModal={setModalOpen}
+                />
+              </Modal>
+            )}
             <Link
               to={`${location.pathname}/doc-forms`}
               state={{ background: location }}
             >
               Document Forms
             </Link>
+            <button onClick={() => setModalOpen(true)}>Invite</button>
           </ResourceSection>
-          <MemberSection></MemberSection>
+          <MemberList
+            fetchApiPrivate={fetchApiPrivate}
+            members={project?.data.participants}
+            projectUrl={project?.data.projectUrl}
+          />
         </ControlSection>
       </MainSection>
     </DashboardContainer>
@@ -90,10 +106,6 @@ const ControlSection = styled.div`
 
 const ResourceSection = styled.div`
   background-color: yellow;
-`;
-
-const MemberSection = styled.div`
-  background-color: antiquewhite;
 `;
 
 const MainSection = styled.div`

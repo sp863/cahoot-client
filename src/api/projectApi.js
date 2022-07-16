@@ -1,3 +1,5 @@
+import { fetchApi } from "./apiConfig";
+
 export const createProject = async ({ fetchApiPrivate, newProjectInfo }) => {
   const response = await fetchApiPrivate.post(
     "api/projects/new",
@@ -31,6 +33,28 @@ export const updateTask = async ({
   const response = await fetchApiPrivate.patch(
     `api/projects/${project_id}/tasks/${task_id}`,
     taskData
+  );
+
+  return response;
+};
+
+export const sendInvitationEmail = async ({
+  fetchApiPrivate,
+  project_id,
+  emailData,
+}) => {
+  const response = await fetchApiPrivate.post(
+    `api/projects/${project_id}/invite`,
+    emailData
+  );
+
+  return response;
+};
+
+export const verifyInvitation = async (fetchApiPrivate, confirmationCode) => {
+  const response = await fetchApiPrivate.patch(
+    `api/projects/invite/verify`,
+    confirmationCode
   );
 
   return response;

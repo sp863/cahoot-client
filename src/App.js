@@ -15,6 +15,7 @@ import DocForms from "./modal-pages/DocForms";
 import DocUploadForm from "./components/DocUploadForm";
 import { QueryClient, QueryClientProvider } from "react-query";
 import SignForm from "./modal-pages/SignForm";
+import ProjectInvite from "./pages/ProjectInvite";
 
 function App() {
   const queryClient = new QueryClient();
@@ -36,6 +37,10 @@ function App() {
       <Routes location={background || location}>
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}>
+            <Route
+              path="/projects/invite/:confirmationCode"
+              element={<ProjectInvite />}
+            />
             <Route path="/profile" element={<Profile />} />
             <Route
               path="/profile/:user_id/faceid"
