@@ -1,11 +1,46 @@
 import styled from "styled-components";
 import useAuth from "../hooks/auth-hook";
+import io from "socket.io-client";
+import envKeys from "../config/config";
+import { useState } from "react";
+import Chat from "./Chat";
+import { useQuery } from "react-query";
+import { getRoomsByUsers } from "../api/chatApi";
 
-const MemberList = ({ fetchApiPrivate, members, projectUrl }) => {
+const socket = io.connect(envKeys.REACT_APP_BACKEND_URL);
+
+const MemberList = ({ fetchApiPrivate, members, rooms, projectUrl }) => {
   const { auth } = useAuth();
+  const [currentChatRoom, setCurrentChatRoom] = useState("");
+  const { data: roomsByUsers } = useQuery(["projects", rooms, members], () =>
+    getRoomsByUsers({
+      fetchApiPrivate,
+      rooms: rooms?.map((room) => room._id),
+      user_id: auth.user.user_id,
+      members: members?.map((member) => member._id),
+    })
+  );
 
-  // console.log("auth", auth.user);
-  // console.log("members", members);
+  const joinChatHandler = async (event) => {
+    const room_id = event.target.id;
+
+    if (!room_id) return;
+
+    socket.emit("join_room", room_id);
+    setCurrentChatRoom(room_id);
+  };
+
+  if (currentChatRoom) {
+    return (
+      <Chat
+        fetchApiPrivate={fetchApiPrivate}
+        socket={socket}
+        user={auth.user}
+        room_id={currentChatRoom}
+        closeChat={setCurrentChatRoom}
+      />
+    );
+  }
 
   return (
     <MembersSection>
@@ -19,15 +54,21 @@ const MemberList = ({ fetchApiPrivate, members, projectUrl }) => {
       {members &&
         members
           .filter((member) => member.email !== auth.user.email)
-          .map((member) => {
+          .map((member, index) => {
             return (
-              <MemberCard>
+              <MemberCard key={member._id}>
                 <Member>
                   <MemberImage src={member.imageUrl} alt={member.name} />
                   <div>{member.name}</div>
                 </Member>
                 <MemberResource>
-                  <div>Chat Icon</div>
+                  <ChatIcon
+                    onClick={joinChatHandler}
+                    id={roomsByUsers?.data[index]}
+                    name={member._id}
+                  >
+                    Chat Icon
+                  </ChatIcon>
                   <div>Signed Documents Icon</div>
                 </MemberResource>
               </MemberCard>
@@ -65,6 +106,10 @@ const Member = styled.div`
 `;
 
 const MemberImage = styled.img``;
+
+const ChatIcon = styled.div`
+  cursor: pointer;
+`;
 
 const MemberResource = styled.div`
   display: grid;
