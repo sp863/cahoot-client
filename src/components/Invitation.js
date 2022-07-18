@@ -6,10 +6,10 @@ const Invitation = ({ fetchApiPrivate, project_id, closeModal }) => {
   const { auth } = useAuth();
   const [email, setEmail] = useState("");
 
-  const testSendEmail = async () => {
+  const sendInvitationEmailHandler = async () => {
     const emailData = {
       fromUser: auth.user.name,
-      fromEmail: auth.user.email,
+      from: auth.user.email,
       to: email,
     };
 
@@ -25,7 +25,7 @@ const Invitation = ({ fetchApiPrivate, project_id, closeModal }) => {
         type="email"
         onChange={(event) => setEmail(event.target.value)}
       />
-      <button onClick={testSendEmail}>Send</button>
+      <button onClick={sendInvitationEmailHandler}>Send</button>
       <button onClick={() => closeModal(false)}>X</button>
     </div>
   );

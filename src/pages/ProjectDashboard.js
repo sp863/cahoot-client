@@ -13,7 +13,7 @@ const ProjectDashboard = () => {
   const location = useLocation();
   const fetchApiPrivate = useApiPrivate();
   const { project_id } = useParams();
-  const [isChatting, setIsChatting] = useState(false);
+
   const [isModalOpen, setModalOpen] = useState(false);
   const { data: project } = useQuery(["projects", project_id], () =>
     getProject(fetchApiPrivate, project_id)
@@ -62,6 +62,8 @@ const ProjectDashboard = () => {
           <MemberList
             fetchApiPrivate={fetchApiPrivate}
             members={project?.data.participants}
+            rooms={project?.data.rooms}
+            project_id={project_id}
             projectUrl={project?.data.projectUrl}
           />
         </ControlSection>
