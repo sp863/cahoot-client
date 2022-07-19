@@ -58,8 +58,20 @@ export const getUserProfileImage = async (fetchApiPrivate, user_id) => {
   return response;
 };
 
-export const updateUserProfileImage = async ({ user_id }) => {
-  const response = await fetchApi.patch(`api/users/${user_id}/:image-key`, {});
+export const updateUserProfileImage = async (
+  fetchApiPrivate,
+  user_id,
+  imageData
+) => {
+  const response = await fetchApiPrivate.patch(
+    `api/users/${user_id}/profile-image`,
+    imageData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
 
   return response;
 };

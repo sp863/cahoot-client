@@ -50,7 +50,6 @@ const FaceIdVerification = ({ user, fetchApiPrivate, completeStep }) => {
 
   const loadLabeledImages = async () => {
     const response = await getUserFaceId(fetchApiPrivate, user.user_id);
-    console.log(response);
     const faceIdUrls = response.data;
     const descriptions = [];
     for (const url of faceIdUrls) {

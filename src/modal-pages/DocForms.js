@@ -26,6 +26,10 @@ const DocForms = () => {
     setCurrentForm(targetForm);
   };
 
+  const downloadFormHandler = async (event) => {
+    const form_id = event.target.id;
+  };
+
   return (
     <ModalPage>
       <Container>
@@ -57,15 +61,25 @@ const DocForms = () => {
                       width={150}
                     />
                     {form.signed.includes(auth.user.email) ? (
-                      <div>Signed ✅</div>
+                      <div>
+                        Signed ✅
+                        <button id={form._id} onClick={downloadFormHandler}>
+                          Download
+                        </button>
+                      </div>
                     ) : (
-                      <Link
-                        to={`${location.pathname}/${form._id}/sign`}
-                        state={{ background: location }}
-                        disabled={form.signed.includes(auth.user.email)}
-                      >
-                        Sign
-                      </Link>
+                      <>
+                        <Link
+                          to={`${location.pathname}/${form._id}/sign`}
+                          state={{ background: location }}
+                          disabled={form.signed.includes(auth.user.email)}
+                        >
+                          Sign
+                        </Link>
+                        <button id={form._id} onClick={downloadFormHandler}>
+                          Download
+                        </button>
+                      </>
                     )}
                   </FormContainer>
                 );
