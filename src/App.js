@@ -7,7 +7,6 @@ import ProfileFaceId from "./modal-pages/ProfileFaceId";
 import Layout from "./components/Layout";
 import Page404 from "./components/Page404";
 import RequireAuth from "./components/RequireAuth";
-import Profile from "./modal-pages/Profile";
 import PersistLogin from "./components/PersistLogin";
 import MyProjects from "./pages/MyProjects";
 import ProjectDashboard from "./pages/ProjectDashboard";
@@ -25,30 +24,30 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-
-          {/* <Route path="*" element={<Page404 />} /> */}
+        <Route element={<PersistLogin />}>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+          </Route>
         </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
 
       <Routes location={background || location}>
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}>
-            <Route
-              path="/projects/invite/:confirmationCode"
-              element={<ProjectInvite />}
-            />
-            <Route path="/profile" element={<Profile />} />
-            <Route
-              path="/profile/:user_id/faceid"
-              element={<ProfileFaceId />}
-            />
-            <Route path="/profile/:user_id/image" element={<ProfileImage />} />
+            <Route element={<Layout />}>
+              <Route path="/projects" element={<MyProjects />} />
+              <Route
+                path="/profile/:user_id/faceid"
+                element={<ProfileFaceId />}
+              />
+              <Route
+                path="/profile/:user_id/image"
+                element={<ProfileImage />}
+              />
+            </Route>
 
-            <Route path="/projects" element={<MyProjects />} />
             <Route path="/projects/:project_id" element={<ProjectDashboard />}>
               <Route
                 path="/projects/:project_id/doc-forms"
@@ -63,6 +62,10 @@ function App() {
                 element={<SignForm />}
               />
             </Route>
+            <Route
+              path="/projects/invite/:confirmationCode"
+              element={<ProjectInvite />}
+            />
           </Route>
         </Route>
       </Routes>
@@ -71,14 +74,6 @@ function App() {
         <Routes>
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth />}>
-              <Route
-                path="/profile/:user_id/faceid"
-                element={<ProfileFaceId />}
-              />
-              <Route
-                path="/profile/:user_id/image"
-                element={<ProfileImage />}
-              />
               <Route
                 path="/projects/:project_id/doc-forms"
                 element={<DocForms />}
@@ -93,6 +88,7 @@ function App() {
               />
             </Route>
           </Route>
+          <Route path="*" element={<Page404 />} />
         </Routes>
       )}
     </QueryClientProvider>

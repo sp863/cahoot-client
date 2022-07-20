@@ -2,9 +2,8 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 
 const Layout = () => {
-  //header and footer can be here
   return (
-    <main className="App">
+    <main>
       <Header />
       <Outlet />
     </main>
