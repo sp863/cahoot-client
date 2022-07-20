@@ -33,8 +33,6 @@ const DigitalSignature = ({ user, fetchApiPrivate }) => {
   );
   const { uploadFormImagesMutation } = useFormMutation();
 
-  console.log(editBoxes);
-
   useEffect(() => {
     if (!docForm?.data.imageUrls.length) return;
 

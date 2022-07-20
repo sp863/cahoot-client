@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getProjectDocFormsList } from "../api/docApi";
+import { getDocumentFormFile, getProjectDocFormsList } from "../api/docApi";
 import ModalPage from "../components/ModalPage";
 import useApiPrivate from "../hooks/apiPrivate-hook";
 import useAuth from "../hooks/auth-hook";
@@ -28,6 +28,15 @@ const DocForms = () => {
 
   const downloadFormHandler = async (event) => {
     const form_id = event.target.id;
+    const form_title = event.target.getAttribute("title");
+    const response = await getDocumentFormFile(fetchApiPrivate, form_id);
+    const tempLink = document.createElement("a");
+
+    tempLink.href = response.data;
+    tempLink.download = `${form_title}.pdf`;
+    document.body.appendChild(tempLink);
+    tempLink.click();
+    tempLink.remove();
   };
 
   return (
@@ -63,7 +72,11 @@ const DocForms = () => {
                     {form.signed.includes(auth.user.email) ? (
                       <div>
                         Signed ✅
-                        <button id={form._id} onClick={downloadFormHandler}>
+                        <button
+                          id={form._id}
+                          title={form.title}
+                          onClick={downloadFormHandler}
+                        >
                           Download
                         </button>
                       </div>

@@ -26,7 +26,7 @@ const ProfileImage = () => {
     <ProfileImageContainer>
       <button onClick={() => navigate(-1)}>Back</button>
       <h1>Profile Image</h1>
-      <ImageContainer class="circular--portrait">
+      <ImageContainer>
         <img
           src={imageFile ? URL.createObjectURL(imageFile) : auth.user.imageUrl}
           alt="profile"
