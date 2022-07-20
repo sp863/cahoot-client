@@ -24,7 +24,6 @@ const MyProjects = () => {
       <button onClick={() => setIsModalOpen(true)}>New Project</button>
       {myProjects?.data.length > 0 &&
         myProjects.data.map((project) => {
-          console.log(project._id);
           return (
             <ProjectContainer key={project._id}>
               <Link to={`/projects/${project._id}`}>{project.name}</Link>

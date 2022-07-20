@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import Webcam from "react-webcam";
 import styled from "styled-components";
 import { registerUserFaceId } from "../api/userApi";
-import ModalPage from "../components/ModalPage";
 import useApiPrivate from "../hooks/apiPrivate-hook";
 import useAuth from "../hooks/auth-hook";
 import useInterval from "../hooks/interval-hook";
@@ -67,7 +66,7 @@ const ProfileFaceId = () => {
   };
 
   return (
-    <ModalPage>
+    <ProfileFaceIdContainer>
       <button onClick={() => navigate(-1)}>X</button>
       {isStarted && timeRemaining < 16 && (
         <>
@@ -90,8 +89,10 @@ const ProfileFaceId = () => {
       <button onClick={() => setIsStarted(true)} disabled={isStarted}>
         Register Face ID
       </button>
-    </ModalPage>
+    </ProfileFaceIdContainer>
   );
 };
+
+const ProfileFaceIdContainer = styled.div``;
 
 export default ProfileFaceId;
