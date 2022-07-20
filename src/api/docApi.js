@@ -20,6 +20,12 @@ export const getDocumentForm = async (fetchApiPrivate, form_id) => {
   return response;
 };
 
+export const getDocumentFormFile = async (fetchApiPrivate, form_id) => {
+  const response = await fetchApiPrivate.get(`api/docs/${form_id}/file`);
+
+  return response;
+};
+
 export const signDocumentForm = async ({
   fetchApiPrivate,
   form_id,
