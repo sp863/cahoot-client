@@ -1,6 +1,3 @@
-import axios from "axios";
-import envKeys from "../config/config";
-
 export const createRoom = async ({ fetchApiPrivate, roomData }) => {
   const response = await fetchApiPrivate.post(`api/chats/rooms/new`, roomData);
 
