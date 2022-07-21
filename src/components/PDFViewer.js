@@ -19,6 +19,7 @@ const PDFViewer = ({ pdfFile, addPdfImage }) => {
     for (const page of documentRef.current.pages) {
       const capturedCanvas = await html2canvas(page); //TODO: control quality
       const base64Image = capturedCanvas.toDataURL("image/png");
+      console.log("지금", base64Image);
 
       addPdfImage((previous) => [...previous, base64Image]);
     }

@@ -7,7 +7,9 @@ import Chat from "./Chat";
 import { useQuery } from "react-query";
 import { getRoomsByUsers } from "../api/chatApi";
 
-const socket = io.connect(envKeys.REACT_APP_BACKEND_URL);
+const socket = io.connect(envKeys.REACT_APP_BACKEND_URL, {
+  withCredientials: true,
+});
 
 const MemberList = ({ fetchApiPrivate, members, rooms, projectUrl }) => {
   const { auth } = useAuth();

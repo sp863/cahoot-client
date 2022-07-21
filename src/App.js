@@ -15,6 +15,10 @@ import DocUploadForm from "./components/DocUploadForm";
 import { QueryClient, QueryClientProvider } from "react-query";
 import SignForm from "./modal-pages/SignForm";
 import ProjectInvite from "./pages/ProjectInvite";
+import { GlobalStyles } from "./config/GlobalStyles";
+
+// REACT_APP_BACKEND_URL = http://localhost:3001/
+// REACT_APP_BACKEND_URL = http://cahoot-server-dev.ap-northeast-2.elasticbeanstalk.com/
 
 function App() {
   const queryClient = new QueryClient();
@@ -23,6 +27,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <GlobalStyles />
       <Routes>
         <Route element={<PersistLogin />}>
           <Route element={<Layout />}>

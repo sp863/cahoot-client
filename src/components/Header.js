@@ -14,8 +14,6 @@ const Header = () => {
   const [userImage, setUserImage] = useState(null);
   const navigate = useNavigate();
 
-  console.log(auth);
-
   useEffect(() => {
     if (auth) {
       profileImageHandler();
@@ -62,15 +60,17 @@ const Header = () => {
         </Modal>
       )}
       <NavContainer>
-        <h1>Cahoot</h1>
+        <h1 onClick={() => navigate("/")}>Cahoot</h1>
         {auth ? (
           <NavControl>
             <Link to={"/projects"}>My Projects</Link>
-            <ProfileImg
-              src={userImage}
-              alt="user profile"
-              onClick={() => setIsModalOpen(!isModalOpen)}
-            />
+            <ImageContainer>
+              <img
+                src={userImage}
+                alt="user profile"
+                onClick={() => setIsModalOpen(!isModalOpen)}
+              />
+            </ImageContainer>
           </NavControl>
         ) : (
           <NavControl>
@@ -84,11 +84,41 @@ const Header = () => {
 
 export default Header;
 
+const HeaderContainer = styled.div`
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+`;
+
 const NavContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   height: 10%;
+
+  h1 {
+    padding: 20px 30px;
+    font-size: 50px;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--hover-color);
+      transition: all 0.4s;
+    }
+  }
+
+  a {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.4s;
+    color: var(--primary-color);
+
+    &:hover {
+      background-color: var(--hover-color);
+    }
+  }
 `;
 
 const NavControl = styled.div`
@@ -99,20 +129,16 @@ const NavControl = styled.div`
   margin-right: 30px;
 `;
 
-const ProfileImg = styled.img`
+const ImageContainer = styled.div`
+  display: inline-block;
+  position: relative;
   width: 55px;
   height: 55px;
+  overflow: hidden;
   border-radius: 50%;
-  transition: all 0.4s ease-in;
 
-  &:focus {
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
+  img {
+    width: auto;
+    height: 100%;
   }
-`;
-
-const HeaderContainer = styled.div`
-  width: 100%;
-  background-color: lightblue;
 `;
