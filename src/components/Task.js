@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import useProjectMutation from "../hooks/project-mutation-hook";
 
-const Task = ({ fetchApiPrivate, members, closeModal, task }) => {
+const Task = ({ fetchApiPrivate, project_id, members, closeModal, task }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("Not Started");
@@ -41,6 +41,7 @@ const Task = ({ fetchApiPrivate, members, closeModal, task }) => {
 
     updateTaskMutation.mutate({
       fetchApiPrivate,
+      project_id,
       task_id: task._id,
       taskData,
     });

@@ -6,6 +6,10 @@ import { useState } from "react";
 import Chat from "./Chat";
 import { useQuery } from "react-query";
 import { getRoomsByUsers } from "../api/chatApi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComments, faFileLines } from "@fortawesome/free-regular-svg-icons";
+import github from "../img/github.jpeg";
+import { Link } from "react-router-dom";
 
 const socket = io.connect(envKeys.REACT_APP_BACKEND_URL, {
   withCredientials: true,
@@ -45,46 +49,84 @@ const MemberList = ({ fetchApiPrivate, members, rooms, projectUrl }) => {
   }
 
   return (
-    <MembersSection>
-      <MemberCard>
-        <Member>
-          <MemberImage src={auth.user.imageUrl} alt={auth.user.name} />
-          <div>{auth.user.name}</div>
-        </Member>
-      </MemberCard>
-      <div>github</div>
-      {members &&
-        members
-          .filter((member) => member.email !== auth.user.email)
-          .map((member, index) => {
-            return (
-              <MemberCard key={member._id}>
-                <Member>
-                  <MemberImage src={member.imageUrl} alt={member.name} />
-                  <div>{member.name}</div>
-                </Member>
-                <MemberResource>
-                  <ChatIcon
-                    onClick={joinChatHandler}
-                    id={roomsByUsers?.data[index]}
-                    name={member._id}
-                  >
-                    Chat Icon
-                  </ChatIcon>
-                  <div>Signed Documents Icon</div>
-                </MemberResource>
-              </MemberCard>
-            );
-          })}
-    </MembersSection>
+    <ListContainer>
+      <Github>
+        <img src={github} alt="github" />
+        <Link to="www.google.com" target="_blank">
+          Project Github Link
+        </Link>
+      </Github>
+      <h1>Your Team</h1>
+      <MembersSection>
+        {members &&
+          members
+            .filter((member) => member.email !== auth.user.email)
+            .map((member, index) => {
+              return (
+                <MemberCard key={member._id}>
+                  <Member>
+                    <ImageContainer>
+                      <img src={member.imageUrl} alt={member.name} />
+                    </ImageContainer>
+                    <p>{member.name}</p>
+                  </Member>
+                  <MemberResource>
+                    <StyledFontAwesomeIcon
+                      icon={faComments}
+                      onClick={joinChatHandler}
+                      id={roomsByUsers?.data[index]}
+                      name={member._id}
+                    />
+                    <StyledFontAwesomeIcon
+                      icon={faFileLines}
+                      // id={roomsByUsers?.data[index]}
+                      // name={member._id}
+                    />
+                  </MemberResource>
+                </MemberCard>
+              );
+            })}
+      </MembersSection>
+    </ListContainer>
   );
 };
 
+const ListContainer = styled.div`
+  display: grid;
+  grid-template-rows: 10% 5% 85%;
+
+  h1 {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+  }
+`;
+
 const MembersSection = styled.div`
-  background-color: blueviolet;
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 1fr 1fr;
+`;
+
+const Github = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    height: 80px;
+  }
+
+  a {
+    font-size: 20px;
+    text-decoration: underline;
+
+    &:hover {
+      color: red;
+    }
+  }
 `;
 
 const MemberCard = styled.div`
@@ -105,12 +147,37 @@ const Member = styled.div`
     border-radius: 50%;
     cursor: pointer;
   }
+
+  p {
+    font-weight: 700;
+  }
 `;
 
-const MemberImage = styled.img``;
+const ImageContainer = styled.div`
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 50%;
 
-const ChatIcon = styled.div`
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
+  font-size: 40px;
   cursor: pointer;
+  padding: 10px;
+  width: 50%;
+  border-radius: 5px;
+
+  &:hover {
+    transition: all 0.2s;
+    background-color: #4dabf7;
+  }
 `;
 
 const MemberResource = styled.div`
