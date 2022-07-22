@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getRoom, translateMessage } from "../api/chatApi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import useApiPrivate from "../hooks/apiPrivate-hook";
 
-const Chat = ({ fetchApiPrivate, socket, user, room_id, closeChat }) => {
+const Chat = ({ socket, user, chatWith, room_id, closeChat }) => {
+  const fetchApiPrivate = useApiPrivate();
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [translation, setTranslation] = useState({
@@ -60,7 +64,8 @@ const Chat = ({ fetchApiPrivate, socket, user, room_id, closeChat }) => {
   return (
     <ChatContainer>
       <ChatHeader>
-        <button onClick={() => closeChat("")}>X</button>
+        <p>{`${chatWith}`}</p>
+        <StyledCloseIcon icon={faXmark} onClick={() => closeChat("")} />
       </ChatHeader>
       <Messages>
         {messageList.length > 0 &&
@@ -68,18 +73,23 @@ const Chat = ({ fetchApiPrivate, socket, user, room_id, closeChat }) => {
             return (
               <MessageContainer key={message._id}>
                 {message.sentBy.email !== user.email ? (
-                  <ReceivedMessage>
-                    <ProfileImage
-                      src={message.sentBy.imageUrl}
-                      alt={message.sentBy.name}
-                    />
-                    <Info>{message.sentBy.name}</Info>
-                    <Content id={message._id} onClick={translateMessageHandler}>
-                      {translation.message &&
-                      translation.message_id === message._id
-                        ? translation.message
-                        : message.message}
-                    </Content>
+                  <ReceivedMessage key={message._id}>
+                    <MessageInfo isSent={false}>
+                      <ProfileImage
+                        src={message.sentBy.imageUrl}
+                        alt={message.sentBy.name}
+                      />
+                      <Content
+                        id={message._id}
+                        onClick={translateMessageHandler}
+                        isSent={false}
+                      >
+                        {translation.message &&
+                        translation.message_id === message._id
+                          ? translation.message
+                          : message.message}
+                      </Content>
+                    </MessageInfo>
                     <Sent>
                       {new Date(message.sent).toLocaleDateString("en-US", {
                         hour: "2-digit",
@@ -88,13 +98,19 @@ const Chat = ({ fetchApiPrivate, socket, user, room_id, closeChat }) => {
                     </Sent>
                   </ReceivedMessage>
                 ) : (
-                  <SentMessage>
-                    <Content id={message._id} onClick={translateMessageHandler}>
-                      {translation.message &&
-                      translation.message_id === message._id
-                        ? translation.message
-                        : message.message}
-                    </Content>
+                  <SentMessage key={message._id}>
+                    <MessageInfo isSent={true}>
+                      <Content
+                        id={message._id}
+                        onClick={translateMessageHandler}
+                        isSent={true}
+                      >
+                        {translation.message &&
+                        translation.message_id === message._id
+                          ? translation.message
+                          : message.message}
+                      </Content>
+                    </MessageInfo>
                     <Sent>
                       {new Date(message.sent).toLocaleDateString("en-US", {
                         hour: "2-digit",
@@ -114,7 +130,9 @@ const Chat = ({ fetchApiPrivate, socket, user, room_id, closeChat }) => {
           onChange={(event) => setMessage(event.target.value)}
           value={message}
         />
-        <button onClick={sendMessageHandler}>Send</button>
+        <SendContainer>
+          <StyledSendIcon icon={faPaperPlane} onClick={sendMessageHandler} />
+        </SendContainer>
       </InputChat>
     </ChatContainer>
   );
@@ -128,18 +146,45 @@ const ChatContainer = styled.div`
 `;
 
 const ChatHeader = styled.div`
-  background-color: black;
+  background-color: var(--primary-color);
+  position: relative;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  p {
+    font-size: 20px;
+    font-weight: 500;
+    margin-left: 20px;
+  }
+`;
+
+const MessageInfo = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: ${(props) => (props.isSent ? "end" : "start")};
+  padding: 10px;
+  gap: 10px;
 `;
 
 const Messages = styled.div`
-  background-color: brown;
+  display: flex;
+  flex-direction: column;
 `;
 
-const MessageContainer = styled.div``;
+const MessageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
-const ReceivedMessage = styled.div``;
+const ReceivedMessage = styled.div`
+  align-self: flex-start;
+`;
 
-const SentMessage = styled.div``;
+const SentMessage = styled.div`
+  align-self: flex-end;
+`;
 
 const ProfileImage = styled.img`
   width: 40px;
@@ -149,20 +194,63 @@ const ProfileImage = styled.img`
 
 const Content = styled.div`
   cursor: pointer;
-  background-color: grey;
+  background-color: ${(props) => (props.isSent ? "#339af0" : "#20c997")};
+  color: white;
   padding: 10px;
+  font-size: 20px;
   display: inline-block;
   border-radius: 7px;
   z-index: 10;
 `;
 
-const Info = styled.div`
-  height: 50px;
-  background-color: antiquewhite;
+const Sent = styled.div`
+  font-size: 15px;
+  font-weight: 500;
+  padding: 0px 10px;
 `;
 
-const Sent = styled.div``;
+const StyledCloseIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px 10px;
+  color: white;
+  position: absolute;
+  top: 25%;
+  right: 0;
+
+  &:hover {
+    transition: all 0.2s;
+    font-size: 25px;
+  }
+`;
 
 const InputChat = styled.div`
-  background-color: lightgoldenrodyellow;
+  display: grid;
+  grid-template-columns: 80% 20%;
+
+  input {
+    border: none;
+    border-top: solid 2px #ced4da;
+    font-size: 20px;
+  }
+`;
+
+const SendContainer = styled.div`
+  border-top: solid 2px #ced4da;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledSendIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  font-size: 30px;
+  padding: 20px;
+  background-color: #ced4da;
+  border-radius: 5px;
+
+  &:hover {
+    transition: all 0.2s;
+    background-color: #4dabf7;
+  }
 `;

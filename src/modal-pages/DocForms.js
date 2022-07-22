@@ -7,6 +7,12 @@ import { getDocumentFormFile, getProjectDocFormsList } from "../api/docApi";
 import ModalPage from "../components/ModalPage";
 import useApiPrivate from "../hooks/apiPrivate-hook";
 import useAuth from "../hooks/auth-hook";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileCirclePlus,
+  faXmark,
+  faFileArrowDown,
+} from "@fortawesome/free-solid-svg-icons";
 
 const DocForms = () => {
   const navigate = useNavigate();
@@ -29,14 +35,16 @@ const DocForms = () => {
   const downloadFormHandler = async (event) => {
     const form_id = event.target.id;
     const form_title = event.target.getAttribute("title");
-    const response = await getDocumentFormFile(fetchApiPrivate, form_id);
-    const tempLink = document.createElement("a");
 
-    tempLink.href = response.data;
-    tempLink.download = `${form_title}.pdf`;
-    document.body.appendChild(tempLink);
-    tempLink.click();
-    tempLink.remove();
+    console.log(form_id, form_title);
+    // const response = await getDocumentFormFile(fetchApiPrivate, form_id);
+    // const tempLink = document.createElement("a");
+
+    // tempLink.href = response.data;
+    // tempLink.download = `${form_title}.pdf`;
+    // document.body.appendChild(tempLink);
+    // tempLink.click();
+    // tempLink.remove();
   };
 
   return (
@@ -44,24 +52,25 @@ const DocForms = () => {
       <Container>
         <Heading>
           <h2>Document Forms</h2>
-          <button onClick={() => navigate(-1)}>x</button>
+          <StyledCloseIcon icon={faXmark} onClick={() => navigate(-1)} />
         </Heading>
         <MainContainer>
           <DocFormsContainer>
             <AddFormContainer>
-              <Link
+              <StyledLink
                 to={`${location.pathname}/new`}
                 state={{ background: location }}
               >
-                Add New Form
-              </Link>
+                <StyledFontAwesomeIcon icon={faFileCirclePlus} />
+                <p>Add New Form</p>
+              </StyledLink>
             </AddFormContainer>
             {docForms?.data.length > 0 &&
               docForms.data.map((form) => {
                 console.log(form);
                 return (
                   <FormContainer key={form._id}>
-                    <div>{form.title}</div>
+                    <h2>{form.title}</h2>
                     <FormThumnail
                       id={form._id}
                       src={form.imageUrls[0]}
@@ -70,18 +79,17 @@ const DocForms = () => {
                       width={150}
                     />
                     {form.signed.includes(auth.user.email) ? (
-                      <div>
-                        Signed ✅
-                        <button
+                      <SignContainer>
+                        <p>Signed ✅</p>
+                        <StyledDownloadIcon
+                          icon={faFileArrowDown}
                           id={form._id}
                           title={form.title}
                           onClick={downloadFormHandler}
-                        >
-                          Download
-                        </button>
-                      </div>
+                        />
+                      </SignContainer>
                     ) : (
-                      <>
+                      <SignContainer>
                         <Link
                           to={`${location.pathname}/${form._id}/sign`}
                           state={{ background: location }}
@@ -89,10 +97,7 @@ const DocForms = () => {
                         >
                           Sign
                         </Link>
-                        <button id={form._id} onClick={downloadFormHandler}>
-                          Download
-                        </button>
-                      </>
+                      </SignContainer>
                     )}
                   </FormContainer>
                 );
@@ -144,6 +149,27 @@ const Heading = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+`;
+
+const StyledCloseIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  font-size: 25px;
+  padding: 5px 10px;
+  color: var(--primary-color);
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  &:hover {
+    transition: all 0.2s;
+    font-size: 30px;
+  }
 `;
 
 const MainContainer = styled.div`
@@ -162,7 +188,6 @@ const AddFormContainer = styled.div`
 const DocFormsContainer = styled.div`
   width: 100%;
   height: 100%;
-  border: 1px solid black;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 300px); //TODO: need to fix this
@@ -176,11 +201,63 @@ const FormContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: aqua;
-  border: 1px solid black;
+  background-color: #343a40;
+  border-radius: 5px;
+  color: white;
+  position: relative;
+
+  h2 {
+    font-weight: 500;
+  }
+`;
+
+const SignContainer = styled.div`
+  a:hover {
+    color: var(--primary-color);
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
 `;
 
 const FormThumnail = styled.img`
+  cursor: pointer;
+`;
+
+const StyledDownloadIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  font-size: 25px;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+  &:hover {
+    transition: all 0.2s;
+    color: var(--primary-color);
+    background-color: white;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  padding: 40px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transition: all 0.2s;
+    background-color: #69db7c;
+  }
+`;
+
+const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
+  font-size: 50px;
+  margin-bottom: 10px;
   cursor: pointer;
 `;
 

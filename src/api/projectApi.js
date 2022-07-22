@@ -51,8 +51,21 @@ export const sendInvitationEmail = async ({
 
 export const verifyInvitation = async (fetchApiPrivate, confirmationCode) => {
   const response = await fetchApiPrivate.patch(
-    `api/projects/invite/verify`,
+    "api/projects/invite/verify",
     confirmationCode
+  );
+
+  return response;
+};
+
+export const updateGithubUrl = async ({
+  fetchApiPrivate,
+  project_id,
+  githubUrl,
+}) => {
+  const response = await fetchApiPrivate.patch(
+    `api/projects/${project_id}/github`,
+    { url: githubUrl }
   );
 
   return response;

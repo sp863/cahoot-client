@@ -86,7 +86,7 @@ const AddTask = ({ fetchApiPrivate, members, closeModal, project_id }) => {
                   id={member.email}
                   onClick={chooseAssigneeHandler}
                 />
-                <div>{member.name}</div>
+                <p>{member.name}</p>
               </Member>
             );
           })}
@@ -112,19 +112,29 @@ const TaskFormContainer = styled.div`
   position: relative;
 `;
 
-const AssigneesContainer = styled.div``;
+const AssigneesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+`;
 
 const Member = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 10px;
 
   img {
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     cursor: pointer;
+  }
+
+  p {
+    font-size: 12px;
   }
 `;
 

@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import { getUserProfileImage } from "../api/userApi";
 import useApiPrivate from "../hooks/apiPrivate-hook";
 import styled from "styled-components";
+import ModalProfile from "./ModalProfile";
 
 const Header = () => {
   const { auth, setAuth } = useAuth();
@@ -43,21 +44,23 @@ const Header = () => {
   return (
     <HeaderContainer>
       {isModalOpen && (
-        <Modal>
-          <Link
-            to={`/profile/${auth?.user.user_id}/faceid`}
-            onClick={() => setIsModalOpen(!isModalOpen)}
-          >
-            Register Face ID
-          </Link>
-          <Link
-            to={`/profile/${auth?.user.user_id}/image`}
-            onClick={() => setIsModalOpen(!isModalOpen)}
-          >
-            Profile Image
-          </Link>
-          <button onClick={logoutHandler}>Sign out</button>
-        </Modal>
+        <ModalProfile>
+          <ProfileMenu>
+            <StyledMenuLink
+              to={`/profile/${auth?.user.user_id}/faceid`}
+              onClick={() => setIsModalOpen(!isModalOpen)}
+            >
+              Register Face ID
+            </StyledMenuLink>
+            <StyledMenuLink
+              to={`/profile/${auth?.user.user_id}/image`}
+              onClick={() => setIsModalOpen(!isModalOpen)}
+            >
+              Profile Image
+            </StyledMenuLink>
+            <button onClick={logoutHandler}>Sign out</button>
+          </ProfileMenu>
+        </ModalProfile>
       )}
       <NavContainer>
         <h1 onClick={() => navigate("/")}>Cahoot</h1>
@@ -114,6 +117,7 @@ const NavContainer = styled.div`
     text-decoration: none;
     transition: all 0.4s;
     color: var(--primary-color);
+    font-weight: 500;
 
     &:hover {
       background-color: var(--hover-color);
@@ -140,5 +144,41 @@ const ImageContainer = styled.div`
   img {
     width: auto;
     height: 100%;
+  }
+`;
+
+const StyledMenuLink = styled(Link)`
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  &:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transition: all 0.3s;
+  }
+`;
+
+const ProfileMenu = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: white;
+    color: var(--primary-color);
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--primary-color);
+      transition: all 0.3s;
+      color: white;
+    }
   }
 `;

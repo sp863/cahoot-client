@@ -19,7 +19,6 @@ const PDFViewer = ({ pdfFile, addPdfImage }) => {
     for (const page of documentRef.current.pages) {
       const capturedCanvas = await html2canvas(page); //TODO: control quality
       const base64Image = capturedCanvas.toDataURL("image/png");
-      console.log("지금", base64Image);
 
       addPdfImage((previous) => [...previous, base64Image]);
     }
@@ -70,6 +69,37 @@ const PageContainer = styled(Document)`
 const PageControlContainer = styled.div`
   display: flex;
   flex-direction: row;
+  position: relative;
+
+  button {
+    position: absolute;
+    left: 260%;
+    bottom: 0;
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+    width: 150px;
+    background-color: white;
+    color: var(--primary-color);
+    font-size: 15px;
+    cursor: pointer;
+
+    &:hover {
+      transition: all 0.3s;
+      color: white;
+      background-color: #69db7c;
+    }
+
+    &:disabled {
+      background-color: #adb5bd;
+      color: #868e96;
+    }
+
+    &[disabled]:hover {
+      background-color: #adb5bd;
+      color: #868e96;
+    }
+  }
 `;
 
 const PageNumber = styled.div`

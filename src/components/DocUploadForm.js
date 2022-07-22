@@ -5,6 +5,8 @@ import useApiPrivate from "../hooks/apiPrivate-hook";
 import useFormMutation from "../hooks/doc-mutation-hook";
 import ModalPage from "./ModalPage";
 import PDFViewer from "./PDFViewer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark, faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 //TODO: document successfully uploaded CSS로 좀 더 부드럽게
 const DocUploadForm = () => {
@@ -73,13 +75,13 @@ const DocUploadForm = () => {
     <ModalPage>
       <UploadContainer>
         <Heading>
-          <h3>New Form</h3>
+          <h2>New Form</h2>
           {uploadSuccess && <p>Document uploaded</p>}
-          <button onClick={() => navigate(-1)}>Back</button>
+          <StyledCloseIcon icon={faXmark} onClick={() => navigate(-1)} />
         </Heading>
         <MainContainer>
           <FormContainer>
-            <form onSubmit={uploadFormHandler}>
+            <Form onSubmit={uploadFormHandler}>
               <label htmlFor="form-title">Document Title</label>
               <input
                 id="form-title"
@@ -119,9 +121,9 @@ const DocUploadForm = () => {
                   !requiredSignatures
                 }
               >
-                Upload
+                <StyledUploadIcon icon={faFileArrowUp} />
               </button>
-            </form>
+            </Form>
           </FormContainer>
           <PreviewContainer>
             {formPdfFile && (
@@ -137,33 +139,77 @@ const DocUploadForm = () => {
 const UploadContainer = styled.div`
   display: grid;
   grid-template-rows: 5% 95%;
-  width: 100%;
-  height: 100%;
 `;
 
 const Heading = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+`;
+
+const StyledCloseIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  font-size: 25px;
+  padding: 5px 10px;
+  color: var(--primary-color);
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  &:hover {
+    transition: all 0.2s;
+    font-size: 30px;
+  }
 `;
 
 const MainContainer = styled.div`
   display: grid;
   grid-template-columns: 50% 50%;
-  width: 100%;
-  height: 100%;
 `;
 
 const FormContainer = styled.div`
-  width: 694px;
-  height: 700px;
-  border: 1px solid black;
+  height: 690px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    border: none;
+    outline: none;
+  }
+`;
+
+const StyledUploadIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  font-size: 25px;
+  padding: 10px;
+  border-radius: 5px;
+  color: var(--primary-color);
+
+  &:hover {
+    transition: all 0.2s;
+    color: white;
+    background-color: var(--primary-color);
+  }
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
 `;
 
 const PreviewContainer = styled.div`
-  width: 694px;
-  height: 700px;
-  border: 1px solid black;
+  height: 690px;
   display: flex;
   flex-direction: column;
   align-items: center;

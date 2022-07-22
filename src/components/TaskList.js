@@ -4,6 +4,8 @@ import AddTask from "./AddTask";
 import Modal from "./Modal";
 import Task from "./Task";
 import { dateOptions } from "../config/dateConfig";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const TaskList = ({ fetchApiPrivate, members, tasks, project_id }) => {
   const [currentModal, setCurrentModal] = useState("");
@@ -27,6 +29,7 @@ const TaskList = ({ fetchApiPrivate, members, tasks, project_id }) => {
           {currentModal === "task" ? (
             <Task
               fetchApiPrivate={fetchApiPrivate}
+              project_id={project_id}
               members={members}
               closeModal={setCurrentModal}
               task={currentTask}
@@ -42,7 +45,10 @@ const TaskList = ({ fetchApiPrivate, members, tasks, project_id }) => {
         </Modal>
       )}
       <AddTaskCard onClick={modalOpenHandler} name="add-task">
-        <div>+ Add New Task</div>
+        <div>
+          <FontAwesomeIcon icon={faPlus} />
+          Add New Task
+        </div>
       </AddTaskCard>
       {tasks?.map((task) => {
         return (
@@ -57,7 +63,7 @@ const TaskList = ({ fetchApiPrivate, members, tasks, project_id }) => {
               {new Date(task.endDate).toLocaleDateString("en-us", dateOptions)}
             </div>
             <div>{task.status}</div>
-            <div>
+            <Assignees>
               {task.assignees.map((assignee, index) => {
                 return (
                   <img
@@ -72,7 +78,7 @@ const TaskList = ({ fetchApiPrivate, members, tasks, project_id }) => {
                   />
                 );
               })}
-            </div>
+            </Assignees>
           </TaskCard>
         );
       })}
@@ -81,7 +87,6 @@ const TaskList = ({ fetchApiPrivate, members, tasks, project_id }) => {
 };
 
 const ListContainer = styled.div`
-  background-color: beige;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
@@ -107,12 +112,23 @@ const AddTaskCard = styled.div`
   justify-items: center;
   width: 95%;
   height: 95px;
-  background-color: green;
   margin-top: 15px;
   border-radius: 15px;
-  border: solid 4px black;
+  border: solid 3px black;
   border-style: dashed;
+  font-weight: 400;
   cursor: pointer;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  &:hover {
+    box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s;
+  }
 `;
 
 const TaskCard = styled.div`
@@ -122,10 +138,10 @@ const TaskCard = styled.div`
   justify-items: center;
   width: 95%;
   height: 95px;
-  background-color: green;
   margin-top: 15px;
   border-radius: 15px;
-  border: solid 1px black;
+  border: solid 2px black;
+  font-weight: 400;
   cursor: pointer;
 
   img {
@@ -134,6 +150,17 @@ const TaskCard = styled.div`
     border-radius: 50%;
     cursor: pointer;
   }
+
+  &:hover {
+    box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s;
+  }
+`;
+
+const Assignees = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
 `;
 
 export default TaskList;
