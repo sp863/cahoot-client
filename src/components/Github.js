@@ -6,12 +6,19 @@ import { faPen, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import useProjectMutation from "../hooks/project-mutation-hook";
 import useApiPrivate from "../hooks/apiPrivate-hook";
+import { useEffect } from "react";
 
 const Github = ({ project_id, url }) => {
   const [githubUrl, setGithubUrl] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const fetchApiPrivate = useApiPrivate();
   const { updateUrlMutation } = useProjectMutation();
+
+  useEffect(() => {
+    if (!url) return;
+
+    setGithubUrl(url);
+  }, [url]);
 
   const editGithubHandler = () => {
     updateUrlMutation.mutate({
@@ -30,12 +37,14 @@ const Github = ({ project_id, url }) => {
         <InputUrl
           id="url"
           type="text"
-          defaultValue={url}
           value={githubUrl}
           onChange={(event) => setGithubUrl(event.target.value)}
         />
         <button onClick={editGithubHandler}>save</button>
-        <StyledCloseIcon icon={faXmark} />
+        <StyledCloseIcon
+          icon={faXmark}
+          onClick={() => setIsEditing(!isEditing)}
+        />
       </InputUrlContainer>
     );
   }

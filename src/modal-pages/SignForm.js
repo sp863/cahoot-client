@@ -6,6 +6,8 @@ import FaceIdVerification from "./FaceIdVerification";
 import ModalPage from "../components/ModalPage";
 import useApiPrivate from "../hooks/apiPrivate-hook";
 import useAuth from "../hooks/auth-hook";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const SignForm = () => {
   const navigate = useNavigate("");
@@ -17,10 +19,10 @@ const SignForm = () => {
   return (
     <ModalPage>
       <ModalHeader>
-        {steps === 0 && <h3>Face ID Verification</h3>}
-        {steps === 1 && <h3>Digital Signature</h3>}
+        {steps === 0 && <h2>Face ID Verification</h2>}
+        {steps === 1 && <h2>Digital Signature</h2>}
         <ProgressContainer></ProgressContainer>
-        <button onClick={() => navigate(-1)}>X</button>
+        <StyledCloseIcon icon={faXmark} onClick={() => navigate(-1)} />
       </ModalHeader>
       <Main>
         {steps === 0 && (
@@ -48,9 +50,30 @@ const Main = styled.div``;
 const ModalHeader = styled.div`
   width: 100%;
   height: 7%;
-  background-color: aqua;
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
+  align-items: center;
+  position: relative;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+`;
+
+const StyledCloseIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  font-size: 25px;
+  padding: 5px 10px;
+  color: var(--primary-color);
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  &:hover {
+    transition: all 0.2s;
+    font-size: 30px;
+  }
 `;
 
 const ProgressContainer = styled.div``;

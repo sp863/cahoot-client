@@ -127,7 +127,12 @@ const TaskFormContainer = styled.div`
   position: relative;
 `;
 
-const AssigneesContainer = styled.div``;
+const AssigneesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
 
 const Member = styled.div`
   display: flex;

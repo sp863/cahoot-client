@@ -27,6 +27,7 @@ const DigitalSignature = ({ user, fetchApiPrivate }) => {
   const [isRectDrawn, setIsRectDrawn] = useState(false);
 
   const { form_id } = useParams();
+  const { project_id } = useParams();
   const navigate = useNavigate();
   const { data: docForm } = useQuery(["form", form_id], () =>
     getDocumentForm(fetchApiPrivate, form_id)
@@ -43,7 +44,7 @@ const DigitalSignature = ({ user, fetchApiPrivate }) => {
   useEffect(() => {
     const context = canvasRef.current.getContext("2d");
     context.lineCap = "round";
-    context.strokeStyle = "blue";
+    context.strokeStyle = "black";
     context.lineWidth = 3;
     contextRef.current = context;
 
@@ -143,27 +144,29 @@ const DigitalSignature = ({ user, fetchApiPrivate }) => {
       pageData,
     });
 
-    // navigate("/projects/:project_id/doc-forms");
+    navigate(`/projects/${project_id}`);
   };
 
   return (
     <StepContainer>
       <FormContainer>
         <ControlPanel>
-          <button
-            id="previous"
-            disabled={pageNumber <= 0}
-            onClick={changePageHandler}
-          >
-            {"<"}
-          </button>
-          <button
-            id="next"
-            disabled={pageNumber === pagesCount - 1}
-            onClick={changePageHandler}
-          >
-            {">"}
-          </button>
+          <PageControl>
+            <button
+              id="previous"
+              disabled={pageNumber <= 0}
+              onClick={changePageHandler}
+            >
+              {"<"}
+            </button>
+            <button
+              id="next"
+              disabled={pageNumber === pagesCount - 1}
+              onClick={changePageHandler}
+            >
+              {">"}
+            </button>
+          </PageControl>
           <button
             disabled={isDrawingMode}
             onClick={() => setIsDrawingMode(true)}
@@ -226,20 +229,20 @@ const DigitalSignature = ({ user, fetchApiPrivate }) => {
               </button>
             </CanvasControl>
           </CanvasInput>
-          <div>
-            <input
-              id="terms"
-              type="checkbox"
-              onChange={() => setIsAgreed(true)}
-            />
-            <label htmlFor="terms">
-              I agree to the terms and conditions of the agreement.
-            </label>
-          </div>
         </Editor>
-        <button disabled={!isAgreed} onClick={submitSignatureHandler}>
+        <Terms>
+          <input
+            id="terms"
+            type="checkbox"
+            onChange={() => setIsAgreed(true)}
+          />
+          <label htmlFor="terms">
+            I agree to the terms and conditions of the agreement.
+          </label>
+        </Terms>
+        <SignButton disabled={!isAgreed} onClick={submitSignatureHandler}>
           Sign
-        </button>
+        </SignButton>
       </InputPanel>
     </StepContainer>
   );
@@ -252,6 +255,60 @@ const StepContainer = styled.div`
   height: 670px;
   display: grid;
   grid-template-columns: 70% 30%;
+`;
+
+const ControlPanel = styled.div`
+  background-color: #868e96;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  button {
+    border: none;
+    border-radius: 5px;
+    height: 25px;
+    width: 150px;
+    background-color: white;
+    color: var(--primary-color);
+    font-size: 15px;
+    cursor: pointer;
+
+    &:hover {
+      transition: all 0.3s;
+      color: white;
+      background-color: var(--primary-color);
+    }
+
+    &:disabled {
+      background-color: #adb5bd;
+    }
+
+    &[disabled]:hover {
+      background-color: #adb5bd;
+      color: var(--primary-color);
+    }
+  }
+`;
+
+const PageControl = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  button {
+    width: 60px;
+  }
+`;
+
+const Terms = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+  gap: 10px;
+  margin-left: 20px;
 `;
 
 const CanvasInput = styled.div`
@@ -270,7 +327,39 @@ const CanvasContainer = styled.div`
 `;
 
 const CanvasControl = styled.div`
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 15px;
+
+  button {
+    border: none;
+    border-radius: 5px;
+    height: 25px;
+    width: 60px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+
+    &:hover {
+      transition: all 0.3s;
+      color: white;
+      background-color: #4dabf7;
+    }
+
+    &:disabled {
+      background-color: #adb5bd;
+      color: #868e96;
+    }
+
+    &[disabled]:hover {
+      background-color: #adb5bd;
+      color: #868e96;
+    }
+  }
 `;
 
 const InputPanel = styled.div`
@@ -278,7 +367,8 @@ const InputPanel = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
+  margin-left: 30px;
 `;
 
 const Editor = styled.div`
@@ -289,7 +379,10 @@ const Editor = styled.div`
 `;
 
 const EditorNav = styled.div`
-  background: pink;
+  background: var(--primary-color);
+  color: white;
+  font-weight: 500;
+  font-size: 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
 `;
@@ -303,9 +396,33 @@ const SignTab = styled.div`
 const Canvas = styled.canvas`
   height: 100%;
   width: 100%;
-  background-color: lightgrey;
+  background-color: #f8f9fa;
+  border: solid 1px var(--primary-color);
 `;
 
-const ControlPanel = styled.div`
-  background-color: #868e96;
+const SignButton = styled.button`
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+  width: 90px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+
+  &:hover {
+    transition: all 0.3s;
+    color: white;
+    background-color: #69db7c;
+  }
+
+  &:disabled {
+    background-color: #adb5bd;
+    color: #868e96;
+  }
+
+  &[disabled]:hover {
+    background-color: #adb5bd;
+    color: #868e96;
+  }
 `;
