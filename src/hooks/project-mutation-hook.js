@@ -1,5 +1,10 @@
 import { useMutation, useQueryClient } from "react-query";
-import { createProject, createTask, updateTask } from "../api/projectApi";
+import {
+  createProject,
+  createTask,
+  updateGithubUrl,
+  updateTask,
+} from "../api/projectApi";
 
 const useProjectMutation = () => {
   const queryClient = useQueryClient();
@@ -22,10 +27,17 @@ const useProjectMutation = () => {
     },
   });
 
+  const updateUrlMutation = useMutation(updateGithubUrl, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("projects");
+    },
+  });
+
   return {
     createProjectMutation,
     createTaskMutation,
     updateTaskMutation,
+    updateUrlMutation,
   };
 };
 

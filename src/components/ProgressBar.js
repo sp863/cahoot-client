@@ -4,10 +4,6 @@ import styled from "styled-components";
 const ProgressBar = ({ tasks }) => {
   const [completed, setCompleted] = useState(0);
 
-  console.log("completed", completed);
-
-  console.log(tasks);
-
   useEffect(() => {
     setCompleted(0);
 
@@ -23,7 +19,11 @@ const ProgressBar = ({ tasks }) => {
   return (
     <BarContainer>
       <BarFiller
-        completed={`${Math.trunc((completed / tasks?.length) * 100)}%`}
+        completed={
+          tasks?.length > 0
+            ? `${Math.trunc((completed / tasks?.length) * 100)}%`
+            : "0"
+        }
       >
         <Label>{`${Math.trunc((completed / tasks?.length) * 100)}%`}</Label>
       </BarFiller>

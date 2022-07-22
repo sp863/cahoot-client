@@ -2,46 +2,63 @@ import styled from "styled-components";
 import useAuth from "../hooks/auth-hook";
 import io from "socket.io-client";
 import envKeys from "../config/config";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Chat from "./Chat";
-import { useQuery } from "react-query";
 import { getRoomsByUsers } from "../api/chatApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments, faFileLines } from "@fortawesome/free-regular-svg-icons";
-import github from "../img/github.jpeg";
-import { Link } from "react-router-dom";
+import Github from "./Github";
 
 const socket = io.connect(envKeys.REACT_APP_BACKEND_URL, {
   withCredientials: true,
 });
 
-const MemberList = ({ fetchApiPrivate, members, rooms, projectUrl }) => {
+const MemberList = ({
+  fetchApiPrivate,
+  members,
+  rooms,
+  project_id,
+  projectUrl,
+}) => {
   const { auth } = useAuth();
   const [currentChatRoom, setCurrentChatRoom] = useState("");
-  const { data: roomsByUsers } = useQuery(["projects", rooms, members], () =>
-    getRoomsByUsers({
-      fetchApiPrivate,
-      rooms: rooms?.map((room) => room._id),
-      user_id: auth.user.user_id,
-      members: members?.map((member) => member._id),
-    })
-  );
+  const [roomsByUsers, setRooms] = useState([]);
+  const [chatWith, setChatWith] = useState("");
+
+  useEffect(() => {
+    if (!rooms?.length) return;
+    if (members?.length < 2) return;
+
+    const getRooms = async () => {
+      const roomsData = await getRoomsByUsers({
+        fetchApiPrivate,
+        rooms: rooms.map((room) => room._id),
+        user_id: auth.user.user_id,
+        members: members.map((member) => member._id),
+      });
+      setRooms(roomsData.data);
+    };
+
+    getRooms();
+  }, [rooms, members]);
 
   const joinChatHandler = async (event) => {
     const room_id = event.target.id;
+    const chatTarget = event.target.getAttribute("name");
 
     if (!room_id) return;
 
     socket.emit("join_room", room_id);
+    setChatWith(chatTarget);
     setCurrentChatRoom(room_id);
   };
 
   if (currentChatRoom) {
     return (
       <Chat
-        fetchApiPrivate={fetchApiPrivate}
         socket={socket}
         user={auth.user}
+        chatWith={chatWith}
         room_id={currentChatRoom}
         closeChat={setCurrentChatRoom}
       />
@@ -50,15 +67,11 @@ const MemberList = ({ fetchApiPrivate, members, rooms, projectUrl }) => {
 
   return (
     <ListContainer>
-      <Github>
-        <img src={github} alt="github" />
-        <Link to="www.google.com" target="_blank">
-          Project Github Link
-        </Link>
-      </Github>
+      <Github project_id={project_id} url={projectUrl} />
       <h1>Your Team</h1>
       <MembersSection>
         {members &&
+          roomsByUsers.length > 0 &&
           members
             .filter((member) => member.email !== auth.user.email)
             .map((member, index) => {
@@ -74,8 +87,8 @@ const MemberList = ({ fetchApiPrivate, members, rooms, projectUrl }) => {
                     <StyledFontAwesomeIcon
                       icon={faComments}
                       onClick={joinChatHandler}
-                      id={roomsByUsers?.data[index]}
-                      name={member._id}
+                      id={roomsByUsers[index]}
+                      name={member.name}
                     />
                     <StyledFontAwesomeIcon
                       icon={faFileLines}
@@ -107,26 +120,6 @@ const MembersSection = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr;
-`;
-
-const Github = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  img {
-    height: 80px;
-  }
-
-  a {
-    font-size: 20px;
-    text-decoration: underline;
-
-    &:hover {
-      color: red;
-    }
-  }
 `;
 
 const MemberCard = styled.div`

@@ -118,17 +118,6 @@ const DashboardHeader = styled.div`
   }
 `;
 
-// const HeaderFontAwesomeIcon = styled(FontAwesomeIcon)`
-//   font-size: 40px;
-//   color: white;
-//   cursor: pointer;
-
-//   &:hover {
-//     transition: all 0.2s;
-//     font-size: 50px;
-//   }
-// `;
-
 const TaskSection = styled.div`
   display: grid;
   grid-template-rows: 13% 4% 83%;
@@ -160,6 +149,7 @@ const ProgressSection = styled.div`
 const ControlSection = styled.div`
   display: grid;
   grid-template-rows: 15% 85%;
+  border-left: solid 2px #ced4da;
 `;
 
 const ResourceSection = styled.div`
@@ -168,6 +158,7 @@ const ResourceSection = styled.div`
   justify-content: center;
   align-items: center;
   gap: 80px;
+  border-bottom: solid 2px #ced4da;
 `;
 
 const MainSection = styled.div`
