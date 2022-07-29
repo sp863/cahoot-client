@@ -143,6 +143,7 @@ export default Chat;
 const ChatContainer = styled.div`
   display: grid;
   grid-template-rows: 7% 73% 20%;
+  height: 690px;
 `;
 
 const ChatHeader = styled.div`
@@ -171,6 +172,7 @@ const MessageInfo = styled.div`
 const Messages = styled.div`
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 `;
 
 const MessageContainer = styled.div`

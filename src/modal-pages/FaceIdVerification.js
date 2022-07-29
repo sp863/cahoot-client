@@ -7,10 +7,12 @@ import { FACE_MODEL_URL } from "../constants/constants";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const FaceIdVerification = ({ user, fetchApiPrivate, completeStep }) => {
   const webcamElement = useRef();
   const [isVerified, setIsVerified] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
 
   useEffect(() => {
     const loadModels = async () => {
@@ -27,6 +29,8 @@ const FaceIdVerification = ({ user, fetchApiPrivate, completeStep }) => {
   };
 
   const verifyFaceHandler = async () => {
+    setIsVerifying(true);
+
     const capturedImage = webcamElement.current.getScreenshot();
     const response = await fetch(capturedImage);
     const imageBlob = await response.blob();
@@ -47,6 +51,8 @@ const FaceIdVerification = ({ user, fetchApiPrivate, completeStep }) => {
     if (results[0]._label === user.email) {
       setIsVerified(true);
     }
+
+    setIsVerifying(false);
   };
 
   const loadLabeledImages = async () => {
@@ -70,6 +76,7 @@ const FaceIdVerification = ({ user, fetchApiPrivate, completeStep }) => {
       <Step>
         <p>Step 1</p>
         {isVerified && <StyledVerifiedIcon icon={faCircleCheck} />}
+        {isVerifying && <LoadingSpinner right="-70%" top="-20%" />}
       </Step>
       <Instructions>
         <p>No Face ID? </p>
@@ -83,7 +90,7 @@ const FaceIdVerification = ({ user, fetchApiPrivate, completeStep }) => {
         width={640}
         screenshotFormat="image/png"
       />
-      <button onClick={verifyFaceHandler} disabled={isVerified}>
+      <button onClick={verifyFaceHandler} disabled={isVerified || isVerifying}>
         Verify
       </button>
       <NextButton onClick={faceIdVerified} disabled={!isVerified}>

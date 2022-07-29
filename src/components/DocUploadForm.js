@@ -6,15 +6,17 @@ import useFormMutation from "../hooks/doc-mutation-hook";
 import ModalPage from "./ModalPage";
 import PDFViewer from "./PDFViewer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark, faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faXmark,
+  faFileArrowUp,
+  faCircleCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
-//TODO: document successfully uploaded CSS로 좀 더 부드럽게
 const DocUploadForm = () => {
   const [docTitle, setDocTitle] = useState("");
   const [formPdfFile, setFormPdfFile] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [formImages, setFormImages] = useState([]);
-  const [requiredSignatures, setRequiredSignatures] = useState(0);
 
   const fileRef = useRef(null);
   const navigate = useNavigate();
@@ -53,7 +55,6 @@ const DocUploadForm = () => {
     formData.append("Doc-Form", formPdfFile);
     formData.append("title", docTitle);
     formData.append("project_id", project_id);
-    formData.append("requiredSignatures", requiredSignatures);
 
     uploadFormMutation.mutate({
       fetchApiPrivate,
@@ -76,52 +77,43 @@ const DocUploadForm = () => {
       <UploadContainer>
         <Heading>
           <h2>New Form</h2>
-          {uploadSuccess && <p>Document uploaded</p>}
           <StyledCloseIcon icon={faXmark} onClick={() => navigate(-1)} />
         </Heading>
         <MainContainer>
           <FormContainer>
+            {uploadSuccess && (
+              <UploadedMessage className="uploaded-message">
+                <StyledVerifiedIcon icon={faCircleCheck} />
+                <p>Document uploaded!</p>
+              </UploadedMessage>
+            )}
             <Form onSubmit={uploadFormHandler}>
-              <label htmlFor="form-title">Document Title</label>
+              <label className="title-label" htmlFor="title-input">
+                Document Title
+              </label>
               <input
-                id="form-title"
+                id="title-input"
                 type="text"
                 onChange={(event) => setDocTitle(event.target.value)}
                 value={docTitle}
                 required
               />
-              <label htmlFor="form-file">File</label>
+              <label htmlFor="form-file">
+                <StyledUploadIcon icon={faFileArrowUp} />
+              </label>
               <input
                 id="form-file"
                 ref={fileRef}
                 type="file"
                 onChange={inputFormFileHandler}
                 accept=".pdf"
+                style={{ display: "none" }}
               />
-              <div>
-                <label htmlFor="required-signatures">
-                  Number of Required Signatures
-                </label>
-                <input
-                  id="required-signatures"
-                  type="number"
-                  onChange={(event) =>
-                    setRequiredSignatures(event.target.value)
-                  }
-                  min={1}
-                  required
-                />
-              </div>
               <button
                 type="submit"
-                disabled={
-                  !docTitle ||
-                  !formPdfFile ||
-                  formImages?.length === 0 ||
-                  !requiredSignatures
-                }
+                disabled={!docTitle || !formPdfFile || formImages?.length === 0}
               >
-                <StyledUploadIcon icon={faFileArrowUp} />
+                Upload
               </button>
             </Form>
           </FormContainer>
@@ -153,6 +145,26 @@ const Heading = styled.div`
   }
 `;
 
+const UploadedMessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 10%;
+  gap: 20px;
+
+  p {
+    font-size: 15px;
+  }
+`;
+
+const StyledVerifiedIcon = styled(FontAwesomeIcon)`
+  font-size: 50px;
+  transition: all 0.3s;
+  color: #51cf66;
+`;
+
 const StyledCloseIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
   font-size: 25px;
@@ -179,16 +191,52 @@ const FormContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+
+  .title-label {
+    font-weight: 500;
+    font-size: 30px;
+  }
+
+  #title-input {
+    height: 35px;
+    width: 100%;
+    text-align: center;
+  }
 
   button {
-    border: none;
-    outline: none;
+    width: 50%;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px var(--primary-color);
+    background-color: var(--primary-color);
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: white;
+      border: solid 1px var(--primary-color);
+      transition: all 0.3s;
+      color: var(--primary-color);
+    }
+
+    &:disabled {
+      background-color: #adb5bd;
+      color: #868e96;
+    }
+
+    &[disabled]:hover {
+      background-color: #adb5bd;
+      color: #868e96;
+    }
   }
 `;
 
 const StyledUploadIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
-  font-size: 25px;
+  font-size: 50px;
   padding: 10px;
   border-radius: 5px;
   color: var(--primary-color);

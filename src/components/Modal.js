@@ -10,7 +10,7 @@ const Modal = ({ children }) => {
 };
 
 export default Modal;
-//top, left, width, height
+
 const Content = styled.div`
   position: fixed;
   top: 50%;
@@ -18,7 +18,7 @@ const Content = styled.div`
   transform: translate(-50%, -50%);
   width: 35%;
   height: 60%;
-  background-color: beige;
+  background-color: white;
   padding: 30px;
   border-radius: 5px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
