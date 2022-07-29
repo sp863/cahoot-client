@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 import useProjectMutation from "../hooks/project-mutation-hook";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const AddTask = ({ fetchApiPrivate, members, closeModal, project_id }) => {
   const [title, setTitle] = useState("");
@@ -39,7 +41,7 @@ const AddTask = ({ fetchApiPrivate, members, closeModal, project_id }) => {
 
   return (
     <TaskFormContainer>
-      <ModalCloseButton onClick={() => closeModal("")}>X</ModalCloseButton>
+      <StyledCloseIcon icon={faXmark} onClick={() => closeModal("")} />
       <TaskForm onSubmit={addTaskHandler}>
         <InputContainer>
           <label htmlFor="title">Task Title</label>
@@ -57,7 +59,7 @@ const AddTask = ({ fetchApiPrivate, members, closeModal, project_id }) => {
             onChange={(event) => setDescription(event.target.value)}
           />
         </InputContainer>
-        <div>
+        <DateStatusInput>
           <label htmlFor="end-date">End Date</label>
           <input
             id="end-date"
@@ -74,7 +76,7 @@ const AddTask = ({ fetchApiPrivate, members, closeModal, project_id }) => {
             <option value="2">In Progress</option>
             <option value="3">Completed</option>
           </select>
-        </div>
+        </DateStatusInput>
         <AssigneesContainer id="assignees">
           <label htmlFor="assignees">Assignees</label>
           {members.map((member) => {
@@ -117,7 +119,13 @@ const AssigneesContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 10px;
+`;
+
+const DateStatusInput = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
 `;
 
 const Member = styled.div`
@@ -125,6 +133,7 @@ const Member = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  font-size: 12px;
 
   img {
     width: 50px;
@@ -132,16 +141,21 @@ const Member = styled.div`
     border-radius: 50%;
     cursor: pointer;
   }
-
-  p {
-    font-size: 12px;
-  }
 `;
 
-const ModalCloseButton = styled.button`
+const StyledCloseIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px 10px;
+  color: var(--primary_color);
   position: absolute;
-  top: -3%;
+  top: -2%;
   right: -2%;
+
+  &:hover {
+    transition: all 0.2s;
+    font-size: 25px;
+  }
 `;
 
 const TaskForm = styled.form`
@@ -150,14 +164,57 @@ const TaskForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+
+  label {
+    font-weight: 500;
+  }
+
+  button {
+    width: 40%;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px var(--primary-color);
+    background-color: var(--primary-color);
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: white;
+      border: solid 1px var(--primary-color);
+      transition: all 0.3s;
+      color: var(--primary-color);
+    }
+
+    &:disabled {
+      background-color: #adb5bd;
+      color: #868e96;
+    }
+
+    &[disabled]:hover {
+      background-color: #adb5bd;
+      color: #868e96;
+    }
+  }
 `;
 
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
 
+  label {
+    margin-bottom: 5px;
+  }
+
+  input {
+    width: 350px;
+  }
+
   textarea {
-    height: 100%;
+    width: 350px;
+    height: 100px;
   }
 `;
 

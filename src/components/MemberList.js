@@ -10,7 +10,7 @@ import { faComments, faFileLines } from "@fortawesome/free-regular-svg-icons";
 import Github from "./Github";
 
 const socket = io.connect(envKeys.REACT_APP_BACKEND_URL, {
-  withCredientials: true,
+  withCredentials: true,
 });
 
 const MemberList = ({

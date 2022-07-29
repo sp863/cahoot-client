@@ -10,7 +10,6 @@ const ProjectInvite = () => {
   const fetchApiPrivate = useApiPrivate();
   const [verifyStatus, setVerifyStatus] = useState("pending");
   const [project, setProject] = useState("");
-  const location = useLocation();
 
   useEffect(() => {
     const checkConfirmationCode = async () => {

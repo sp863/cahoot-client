@@ -4,20 +4,16 @@ import home2 from "../img/home2.jpg";
 
 const Home = () => {
   return (
-    <HomeContainer>
-      <HomeMain>
-        <PageTitle>
-          <HomeSignature />
-          <h1>SIGN.</h1>
-          <h1>FACE ID.</h1>
-          <h1>TRANSLATE.</h1>
-        </PageTitle>
-      </HomeMain>
-    </HomeContainer>
+    <HomeMain>
+      <PageTitle>
+        <HomeSignature />
+        <h1>SIGN.</h1>
+        <h1>FACE ID.</h1>
+        <h1>TRANSLATE.</h1>
+      </PageTitle>
+    </HomeMain>
   );
 };
-
-const HomeContainer = styled.div``;
 
 const HomeMain = styled.div`
   background-image: url(${home2});
