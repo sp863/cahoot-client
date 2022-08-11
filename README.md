@@ -51,6 +51,12 @@ npm start
   - 기능 구현
   - 리드미 초안
   - 배포
+  
+## Tech Stack
+### Frontend
+- React.js, React-Router-Dom, React Query, Canvas API, face-api.js (TensorFlow), Socket.io, Styled-Components
+### Backend
+- Node.js, Express, Socket.io, MongoDB, Mongoose, jwt, nodemailer, pdf-lib, Google Cloud Translate API, AWS S3, AWS Elastic Beanstalk
 
 ## Challenges
 
