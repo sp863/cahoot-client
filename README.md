@@ -1,5 +1,5 @@
 # Cahoot Client
-- [배포 URL](https://all-recipes-note-client.vercel.app/)
+- [배포 URL](https://cahoot.netlify.app/)
 
 ## Installation
 
