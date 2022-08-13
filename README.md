@@ -58,7 +58,7 @@ npm start
    - ![2022-08-13 17 41 22 6](https://user-images.githubusercontent.com/61281531/184476505-3b2fdfef-2a41-45ff-8f7e-d248439a1ae7.gif)
 
 ## General Issues
-- 이번 프로젝트에서 문서 양식을 업로드 할 시 PDF 파일과 함께 문서의 이미지 파일들을 함께 업로드 합니다. 하지만 로컬에서와 달리 AWS Elastic Beanstalk 배포 후 업로드 과정에서 413 Reqeust Entity Too Large 에러가 발생하여 배포 과정에서 딜레이가 있었습니다. 많은 자료들을 찾아본 결과 원인은 nginx 설정값 중 client에서 요청 할 수 있는 용량이 제한이 있었고 기본적으로 요청 제한 용량이 1MB이라는 것을 알게되었습니다. nginx 설정을 변경하기 위해서는 Elastic Beanstalk에 업로드 되는 어플리케이션 패키지 내 [AWS 공식문서](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-linux-extend.html) 에서 알려주는 경로로 nginx 설정 파일(myconf.conf)을 추가하여 최대 용량을 100MB로 변경 할 수 있었고 시행 착오 끝에 업로드 에러를 해결 할 수 있었습니다. 하지만 로컬 환경에서와는 달리, 배포 후 PDF의 내용이 서명 후 깨지는 현상이 발생하여 이부분을 픽스하려는 시도를 하고 있습니다.
+- 로컬에서와 달리 AWS Elastic Beanstalk 배포 후 파일 업로드 과정에서 413 Reqeust Entity Too Large 에러가 발생하였습니다. 많은 자료들을 찾아본 결과 PDF 파일과 함께 문서 이미지 파일들을 업로드하였기에 nginx 설정값증 client에서 요청할 수 있는 기본 제한 용량을 초과하였던 것이 원인이었습니다. nginx 설정을 변경하기 위해 Elastic Beanstalk에 업로드되는 애플리케이션 패키지 내 [AWS 공식문서](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-linux-extend.html)에서 알려주는 경로에 nginx 설정 파일(myconf.conf)을 추가하였습니다. 이를 통해 최대 용량을 100MB로 변경할 수 있었고 성공적으로 문서 양식을 업로드할 수 있었습니다.
 
 ## Challenges
 
