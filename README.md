@@ -14,8 +14,14 @@ npm start
 
 디지털 서명 기능은 대한민국 민법, 전자서명법 3조, 전자 문서 및 전자거래 기본법 4조에 최대한 부합될수 있도록 구현을 시도해보았습니다. 중요 포인트는 2가지입니다.
 
-1. 전자문서의 내용을 열람할 수 있을것
-2. 전자문서가 작성, 변환되거나 송신, 수신 또는 저장된 때의 형태 또는 그와 같이 재현될 수 있는 형태로 보존되어 있을것
+1. 전자문서의 내용을 열람할 수 있음
+2. 전자문서가 작성, 변환되거나 송신, 수신 또는 저장된 때의 형태 또는 그와 같이 재현될 수 있는 형태로 보존되어 있음
+
+## Tech Stack
+### Frontend
+- React.js, React-Router-Dom, React Query, Canvas API, face-api.js (TensorFlow), Socket.io, Styled-Components
+### Backend
+- Node.js, Express, Socket.io, MongoDB, Mongoose, jwt, nodemailer, pdf-lib, Google Cloud Translate API, AWS S3, AWS Elastic Beanstalk
 
 ## Features
 
@@ -49,12 +55,6 @@ npm start
   - 기능 구현
   - 리드미 초안
   - 배포
-  
-## Tech Stack
-### Frontend
-- React.js, React-Router-Dom, React Query, Canvas API, face-api.js (TensorFlow), Socket.io, Styled-Components
-### Backend
-- Node.js, Express, Socket.io, MongoDB, Mongoose, jwt, nodemailer, pdf-lib, Google Cloud Translate API, AWS S3, AWS Elastic Beanstalk
 
 ## Challenges
 
