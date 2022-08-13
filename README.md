@@ -36,6 +36,7 @@ npm start
    - Face ID를 등록하여 서명 전 Face ID를 이용하여 본인 인증이 되어야지만 서명을 할 수 있습니다.
 3. Chat Translation
    - 프로젝트 내 팀원들과 채팅을 할 수 있고 채팅 메세지를 즉시 번역하여 확인 할 수 있습니다.
+   ![2022-08-13 17 41 22 4](https://user-images.githubusercontent.com/61281531/184476400-b452ce83-b1aa-4a1c-bf30-0f8572a46c22.gif)
 4. Task Management
    - Task를 생성하고 Task 담당자를 지정하여 관리 할 수 있습니다.
 5. Email Invitation
