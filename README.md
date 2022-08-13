@@ -18,10 +18,24 @@ npm start
 2. 전자문서가 작성, 변환되거나 송신, 수신 또는 저장된 때의 형태 또는 그와 같이 재현될 수 있는 형태로 보존되어 있음
 
 ## Tech Stack
+
 ### Frontend
 - React.js, React-Router-Dom, React Query, Canvas API, face-api.js (TensorFlow), Socket.io, Styled-Components
 ### Backend
 - Node.js, Express, Socket.io, MongoDB, Mongoose, jwt, nodemailer, pdf-lib, Google Cloud Translate API, AWS S3, AWS Elastic Beanstalk
+
+
+## Duration
+
+- Week 1 (2022.06.27 - 07.03)
+  - 아이디어 구상
+  - 기획 및 Mock up
+  - 기술 Proof of Concept
+  - 배경 조사
+- Week 2-3 (2022.07.04 - 07.17)
+  - 기능 구현
+  - 리드미 초안
+  - 배포
 
 ## Features
 
@@ -42,19 +56,6 @@ npm start
 5. Email Invitation
    - 이메일을 통하여 사용자에게 프로젝트 access 권한을 부여 할 수 있습니다.
    - ![2022-08-13 17 41 22 6](https://user-images.githubusercontent.com/61281531/184476505-3b2fdfef-2a41-45ff-8f7e-d248439a1ae7.gif)
-
-
-## Duration
-
-- Week 1 (2022.06.27 - 07.03)
-  - 아이디어 구상
-  - 기획 및 Mock up
-  - 기술 Proof of Concept
-  - 배경 조사
-- Week 2-3 (2022.07.04 - 07.17)
-  - 기능 구현
-  - 리드미 초안
-  - 배포
 
 ## Challenges
 
