@@ -32,15 +32,19 @@ npm start
 1. Digital Signature
    - PDF 파일을 업로드 하여 원하는 위치를 상자로 그리고 서명한 후 열람 및 다운로드를 할 수 있습니다.
    - 서명 전 문서를 Zoom 하고 Pan 하여 서명 위치를 파악 할 수 있습니다.
+   - 
 2. Face ID
    - Face ID를 등록하여 서명 전 Face ID를 이용하여 본인 인증이 되어야지만 서명을 할 수 있습니다.
 3. Chat Translation
    - 프로젝트 내 팀원들과 채팅을 할 수 있고 채팅 메세지를 즉시 번역하여 확인 할 수 있습니다.
-   ![2022-08-13 17 41 22 4](https://user-images.githubusercontent.com/61281531/184476400-b452ce83-b1aa-4a1c-bf30-0f8572a46c22.gif)
+   - ![2022-08-13 17 41 22 4](https://user-images.githubusercontent.com/61281531/184476400-b452ce83-b1aa-4a1c-bf30-0f8572a46c22.gif)
 4. Task Management
    - Task를 생성하고 Task 담당자를 지정하여 관리 할 수 있습니다.
+   - ![2022-08-13 17 41 22 5](https://user-images.githubusercontent.com/61281531/184476481-92a2c9af-1ef7-4643-ad29-2f85d5065449.gif)
 5. Email Invitation
    - 이메일을 통하여 사용자에게 프로젝트 access 권한을 부여 할 수 있습니다.
+   - ![2022-08-13 17 41 22 6](https://user-images.githubusercontent.com/61281531/184476505-3b2fdfef-2a41-45ff-8f7e-d248439a1ae7.gif)
+
 
 ## Duration
 
