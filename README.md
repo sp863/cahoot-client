@@ -35,6 +35,8 @@ npm start
    - ![01_sign_form](https://user-images.githubusercontent.com/61281531/184476788-f8579d3c-ed0e-4eb8-98bc-379a23dcd0d9.gif)
 2. Face ID
    - Face ID를 등록하여 서명 전 Face ID를 이용하여 본인 인증이 되어야지만 서명을 할 수 있습니다.
+   - ![02_faceID_register](https://user-images.githubusercontent.com/61281531/184477086-8fea891c-ef43-49e7-98ec-100ecb1f9597.gif)
+   - ![03_faceID_verify](https://user-images.githubusercontent.com/61281531/184477114-afce941c-925a-463d-a9a0-85ceea5dfc20.gif)
 3. Chat Translation
    - 프로젝트 내 팀원들과 채팅을 할 수 있고 채팅 메세지를 즉시 번역하여 확인 할 수 있습니다.
    - ![2022-08-13 17 41 22 4](https://user-images.githubusercontent.com/61281531/184476400-b452ce83-b1aa-4a1c-bf30-0f8572a46c22.gif)
