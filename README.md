@@ -32,7 +32,7 @@ npm start
 1. Digital Signature
    - PDF 파일을 업로드 하여 원하는 위치를 상자로 그리고 서명한 후 열람 및 다운로드를 할 수 있습니다.
    - 서명 전 문서를 Zoom 하고 Pan 하여 서명 위치를 파악 할 수 있습니다.
-   - 
+   - ![01_sign_form](https://user-images.githubusercontent.com/61281531/184476788-f8579d3c-ed0e-4eb8-98bc-379a23dcd0d9.gif)
 2. Face ID
    - Face ID를 등록하여 서명 전 Face ID를 이용하여 본인 인증이 되어야지만 서명을 할 수 있습니다.
 3. Chat Translation
