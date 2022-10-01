@@ -36,7 +36,6 @@ const DocForms = () => {
     const form_id = event.target.id;
     const form_title = event.target.getAttribute("title");
 
-    console.log(form_id, form_title);
     // const response = await getDocumentFormFile(fetchApiPrivate, form_id);
     // const tempLink = document.createElement("a");
 
@@ -67,7 +66,6 @@ const DocForms = () => {
             </AddFormContainer>
             {docForms?.data.length > 0 &&
               docForms.data.map((form) => {
-                console.log(form);
                 return (
                   <FormContainer key={form._id}>
                     <h2>{form.title}</h2>

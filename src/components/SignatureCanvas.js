@@ -53,8 +53,6 @@ const SignatureCanvas = ({
       updateWidth(resizedImageWidth);
       updateHeight(resizedImageHeight);
 
-      console.log(image.height, image.width);
-
       canvasRef.current.width = 969.3;
       canvasRef.current.height = 650;
 

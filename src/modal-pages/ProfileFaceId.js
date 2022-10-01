@@ -23,7 +23,6 @@ const ProfileFaceId = () => {
   useEffect(() => {
     if (faceId.length === 3) {
       registerFaceId(faceId);
-      console.log("register!!!");
     }
   }, [faceId]);
 
@@ -31,7 +30,6 @@ const ProfileFaceId = () => {
     () => {
       if (timeRemaining % 5 === 0 && timeRemaining > 0 && timeRemaining < 16) {
         captureFace();
-        console.log("captured");
       }
       setTimeRemaining(timeRemaining + 1);
     },
