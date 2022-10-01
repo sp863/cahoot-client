@@ -40,18 +40,6 @@ npm start
 5. Email Invitation
    - 이메일을 통하여 사용자에게 프로젝트 access 권한을 부여 할 수 있습니다.
 
-## Duration
-
-- Week 1 (2022.06.27 - 07.03)
-  - 아이디어 구상
-  - 기획 및 Mock up
-  - 기술 Proof of Concept
-  - 배경 조사
-- Week 2-3 (2022.07.04 - 07.17)
-  - 기능 구현
-  - 리드미 초안
-  - 배포
-
 ## Challenges
 
 ### PDF 문서를 이미지화 편집하는 기능
@@ -65,13 +53,3 @@ npm start
 - PDF의 [디지털 서명에 대한 공식 문서](https://www.adobe.com/devnet-docs/etk_deprecated/tools/DigSig/Acrobat_DigitalSignatures_in_PDF.pdf)를 보면 PDF 서명도 Public Key Infrastructure의 도입을 통해 서명 시 digital ID를 생성하여 문서의 변조를 방지하고 서명의 진위여부를 판단할 수 있도록 만들어져 있습니다. Digital ID란 public/private key 와 GlobalSign 이나 Entrust와 같은 제 3자 인증기관에서 인증 받을 수 있는 certificate file 로 이루어진 것을 뜻합니다.
 - 일반적으로 서명 기능이 부여된 PDF는 Hexadecimal editor를 통해 열어보면 ByteRange 라는 4개의 숫자로 이루어진 PDF hex code 가 PDF에서의 서명 위치와 digital id가 들어간 서명값을 가지고 있고 이번 프로젝트의 목표로 이렇게 서명 값을 PDF삽입 해주는것 까지 목표로 잡았었습니다.
 - 제 3자 Certificate Authority 를 사용하지 않고 node js 의 child process execute를 통해 openSSL api를 이용한 self-signed certificate을 발행하려고 시도해 보았으나 child process 작동 방식에 대한 이해도가 부족하여 실패했습니다. certificate 관련 라이브러리를 찾아서 public/private key 와 self signed certificate을 발행하는것 까지 성공하고 pdf-lib라이브러리로 PDF파일을 byte단위로 읽어서 서명을 삽입 하는 단계까지 이르렀지만 이 단계에서 라이브러리 에러 문제로 다시한번 실패 했습니다. 저에게 좀 과분한 내용의 기능 구현 시도였지만 많은것을 공부 할 수 있었고 시간이 된다면 이 기능을 꼭 성공해보고 싶습니다.
-
-## 프로젝트를 마치며
-
-### 문제 해결 능력과 공부의 깊이
-
-이번 프로젝트를 마치면서 다시한번 느꼈던 것은 문제해결 능력의 중요성입니다. 4개월 간의 부트캠프 기간과 마지막 프로젝트를 겪으면서 짧은 기간이었지만 수 많은 문제들을 어떻게 해결해야되는지에 대해서 배울 수 있었던 시간이었던 것 같습니다. 특히 바닐라 코딩 같이 자기주도적 학습이 최우선으로 강조되는 환경에서 더 뼈저리게 느꼈고 예비 개발자로서 이 부분에서 조금이나마 성장을 하지 않았나라고 생각합니다.
-
-프로젝트를 마치고 제일 남는 기억들은 문제해결을 하기 위해서 읽어본 수 많은 공식 문서들, stack overflow 자료들, 블로그들, 예시들, 유투브 선생님들이지 않나 싶습니다. 이번 프로젝트에서 어떻게 하면 실제 서명과 같은 기능을 구현 할 수 있을까 고민하다보니 더 깊은 공부를 하게 되었고 프로젝트 결과에 대해서는 아쉬움이 남지만 디지털 서명이라는 기능을 구현하려고 투자한 노력과 시간들은 너무나 값진 자산이 되었다고 생각합니다. 평소 자세히 공부하지 못했던 browser가 제공해주는 interface 들 그리고 백엔드에서 문서 보안을 위해 공부 하고 시도 했었던 public key infrastructure, child process 등 더 깊은 공부를 할 수 있는 계기가 되었습니다.
-
-이번 계기를 통해 더 발전하는 개발자 즉 문제해결을 더 잘하는 개발자가 되려면 2가지의 요소가 중요하다고 느꼈습니다. 좌절하지 않는 마음과 공부의 깊이 입니다. 문제 해결을 위해 공부를 하고 이런 저런 시도를 하다보면 너무나 큰 벽을 마주칠 때가 많았던 것 같습니다. 때로는 그런 벽을 뚫을 수도 있었고 우회해서 지나갈 수도 있었지만 못뚫었을때의 좌절감이 개발자로서 엄청난 악영향이라는 것을 깨달았습니다. 이런 순간들을 대비해 더 깊은 공부를 해야겠다고 느꼈고 또 나 자신의 한계를 느꼈다 하더라도 끊임없이 도전해 보는 attitude를 가져야 한다고 생각합니다.
