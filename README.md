@@ -24,19 +24,6 @@ npm start
 ### Backend
 - Node.js, Express, Socket.io, MongoDB, Mongoose, jwt, nodemailer, pdf-lib, Google Cloud Translate API, AWS S3, AWS Elastic Beanstalk
 
-
-## Duration
-
-- Week 1 (2022.06.27 - 07.03)
-  - 아이디어 구상
-  - 기획 및 Mock up
-  - 기술 Proof of Concept
-  - 배경 조사
-- Week 2-3 (2022.07.04 - 07.17)
-  - 기능 구현
-  - 리드미 초안
-  - 배포
-
 ## Features
 
 1. Digital Signature
@@ -57,6 +44,7 @@ npm start
    - 이메일을 통하여 사용자에게 프로젝트 access 권한을 부여 할 수 있습니다.
    - ![2022-08-13 17 41 22 6](https://user-images.githubusercontent.com/61281531/184476505-3b2fdfef-2a41-45ff-8f7e-d248439a1ae7.gif)
 
+
 ## General Issues
 - 로컬에서와 달리 AWS Elastic Beanstalk 배포 후 파일 업로드 과정에서 413 Reqeust Entity Too Large 에러가 발생하였습니다. 많은 자료들을 찾아본 결과 PDF 파일과 함께 문서 이미지 파일들을 업로드하였기에 nginx 설정값증 client에서 요청할 수 있는 기본 제한 용량을 초과하였던 것이 원인이었습니다. nginx 설정을 변경하기 위해 Elastic Beanstalk에 업로드되는 애플리케이션 패키지 내 [AWS 공식문서](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-linux-extend.html)에서 알려주는 경로에 nginx 설정 파일(myconf.conf)을 추가하였습니다. 이를 통해 최대 용량을 100MB로 변경할 수 있었고 성공적으로 문서 양식을 업로드할 수 있었습니다.
 
@@ -71,15 +59,5 @@ npm start
 ### PDF 파일에 Digital ID 서명 삽입 시도
 
 - PDF의 [디지털 서명에 대한 공식 문서](https://www.adobe.com/devnet-docs/etk_deprecated/tools/DigSig/Acrobat_DigitalSignatures_in_PDF.pdf)를 보면 PDF 서명도 Public Key Infrastructure의 도입을 통해 서명 시 digital ID를 생성하여 문서의 변조를 방지하고 서명의 진위여부를 판단할 수 있도록 만들어져 있습니다. Digital ID란 public/private key 와 GlobalSign 이나 Entrust와 같은 제 3자 인증기관에서 인증 받을 수 있는 certificate file 로 이루어진 것을 뜻합니다.
-- 일반적으로 서명 기능이 부여된 PDF는 Hexadecimal editor를 통해 열어보면 ByteRange 라는 4개의 숫자로 이루어진 PDF hex code 가 PDF에서의 서명 위치와 digital id가 들어간 서명값을 가지고 있습니다. 이번 프로젝트의 목표 중 하나는 digital id가 들어간 서명 값을 PDF에 삽입해 주는 것이었습니다.
-- 제3자의 Certificate Authority를 사용하지 않고 node js의 child process execute를 통해 openSSL api를 이용한 self-signed certificate을 발행하려고 시도해 보았습니다. Certificate 관련 라이브러리를 찾아서 public/private key 와 self signed certificate을 발행하는 것, pdf-lib 라이브러리로 PDF 파일을 byte 단위로 읽어서 서명을 삽입하는 단계까지는 성공하였지만 이후 단계에서 라이브러리 에러 문제로 서명 값을 PDF에 삽입하지는 못하였습니다. 그럼에도 그 과정에서 많은 것을 공부할 수 있었고 이후 보다 깊이 있는 공부를 통해 상기 기능을 꼭 완성하고 싶습니다.
-
-## 프로젝트를 마치며
-
-### 문제 해결 능력과 공부의 깊이
-
-4개월간의 부트 캠프 기간 동안 프로젝트를 진행하면서 문제 해결 능력의 중요성을 다시 한번 느꼈습니다. 끊임없이 배우고 도전하는 개발자가 되고자 하는 저에게 이러한 부분에서 조금이나마 성장을 하지 않았나라고 생각합니다.
-
-프로젝트를 마치고 제일 남는 기억들은 문제 해결을 하기 위해서 읽어본 수많은 공식 문서들, stack overflow 자료들, 웹 개발 관련 서적, 블로그, 유튜브들이지 않나 싶습니다. 이번 프로젝트에서 어떻게 하면 실제 서명과 같은 기능을 구현할 수 있을까 끊임없이 고민하다 보니 더 깊은 공부를 하게 되었고 개발에 대한 더 큰 열정과 흥미를 키울 수 있었습니다. 프로젝트 결과에 대해서는 아쉬움이 남지만 디지털 서명이라는 기능을 구현하려고 투자한 노력과 시간들은 저에게 너무나 값진 자산이 되었다고 생각합니다. 평소 자세히 공부하지 못했던 browser가 제공해 주는 interface 들 그리고 백엔드에서 문서 보안을 위해 공부하고 시도했었던 public key infrastructure, child process 등 더 깊은 공부를 할 수 있는 계기가 되었습니다.
-
-문제 해결을 위해 공부를 하고 이런저런 시도를 하였음에도 큰 벽을 마주칠 때가 많았습니다. 여러 노력 끝에 벽을 뚫을 때도, 우회해서 지나갈 때도 있었지만 그러한 과정에서 한계를 느꼈다 하더라도 끊임없이 도전해 보는 태도가 필요함을 느꼈습니다. 또한 이러한 벽에 직면했을 때를 대비하여 더 깊은 공부를 해야겠다고 느꼈습니다. 이를 기반으로 끊임없이 배우고 도전하는 개발자가 되어 실무에서 제 한몫 이상 할 수 있는 개발자가 되고 싶습니다.
+- 일반적으로 서명 기능이 부여된 PDF는 Hexadecimal editor를 통해 열어보면 ByteRange 라는 4개의 숫자로 이루어진 PDF hex code 가 PDF에서의 서명 위치와 digital id가 들어간 서명값을 가지고 있고 이번 프로젝트의 목표로 이렇게 서명 값을 PDF삽입 해주는것 까지 목표로 잡았었습니다.
+- 제 3자 Certificate Authority 를 사용하지 않고 node js 의 child process execute를 통해 openSSL api를 이용한 self-signed certificate을 발행하려고 시도해 보았으나 child process 작동 방식에 대한 이해도가 부족하여 실패했습니다. certificate 관련 라이브러리를 찾아서 public/private key 와 self signed certificate을 발행하는것 까지 성공하고 pdf-lib라이브러리로 PDF파일을 byte단위로 읽어서 서명을 삽입 하는 단계까지 이르렀지만 이 단계에서 라이브러리 에러 문제로 다시한번 실패 했습니다. 저에게 좀 과분한 내용의 기능 구현 시도였지만 많은것을 공부 할 수 있었고 시간이 된다면 이 기능을 꼭 성공해보고 싶습니다.
